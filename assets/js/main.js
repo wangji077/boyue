@@ -26,13 +26,15 @@
     if (toggle) toggle.setAttribute('aria-expanded', 'false');
   };
 
-  if (toggle) {
-    toggle.addEventListener('click', function () {
+  // 抽屉开关：顶部汉堡 + 右侧悬浮按钮都可触发
+  var menuTriggers = document.querySelectorAll('.nav-toggle, .js-fab-menu');
+  menuTriggers.forEach(function (btn) {
+    btn.addEventListener('click', function () {
       var open = document.body.classList.toggle('menu-open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
       document.body.style.overflow = open ? 'hidden' : '';
     });
-  }
+  });
 
   if (drawer) {
     drawer.querySelectorAll('a').forEach(function (a) {
@@ -43,6 +45,14 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeMenu();
   });
+
+  /* ---------------------- 1.5 悬浮工具条：回到顶部 ---------------------- */
+  var topBtn = document.querySelector('.js-top');
+  if (topBtn) {
+    topBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  }
 
   /* ---------------------- 2. 滚动入场动画（可重复调用） ---------------------- */
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
