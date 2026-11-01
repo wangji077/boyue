@@ -2021,3 +2021,101 @@ body.page-home .site-header .lang-switch { opacity: 1; pointer-events: auto; }
   .conn-addr { grid-template-columns: 1fr; }
   .conn-bottom-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
 }
+
+/* ---------- 28. 首屏海报轮播（竖版海报 + 模糊底 + 整张可点击） ---------- */
+.hero-media .slide .slide-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+  z-index: 1;
+}
+/* 底层：同图放大铺满 + 高斯模糊，填充海报两侧留白 */
+.hero-media .slide .poster-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(26px) brightness(.55) saturate(1.05);
+  transform: none;
+  transition: none;
+}
+/* 前层：海报完整居中显示，按钮不被裁切 */
+.hero-media .slide .poster-main {
+  position: absolute;
+  inset: 0;
+  margin: 0 auto;
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  transform: none;
+  transition: none;
+  box-shadow: 0 0 70px rgba(0, 0, 0, .5);
+}
+.hero-media .slide .slide-link:hover .poster-main {
+  transform: none;
+}
+
+/* ---------- 29. 专题页（硬装选材 / 软装 / 门窗电器） ---------- */
+.campaign-grid {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+.campaign-poster img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  border-radius: var(--radius);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .45);
+}
+.campaign-intro {
+  font-size: 16.5px;
+  line-height: 2;
+  color: var(--c-ink-soft);
+  max-width: 32em;
+}
+.campaign-list {
+  list-style: none;
+  margin: clamp(28px, 4vw, 44px) 0;
+  padding: 0;
+}
+.campaign-module {
+  display: flex;
+  gap: 22px;
+  padding: 20px 0;
+  border-top: 1px solid var(--c-line);
+  align-items: baseline;
+}
+.campaign-module:last-child { border-bottom: 1px solid var(--c-line); }
+.campaign-module .num {
+  font-family: var(--f-serif);
+  font-size: 15px;
+  letter-spacing: .1em;
+  color: var(--c-muted);
+  flex-shrink: 0;
+}
+.campaign-module h3 {
+  font-family: var(--f-serif);
+  font-size: 19px;
+  letter-spacing: .08em;
+  margin: 0 0 6px;
+  color: var(--c-ink);
+}
+.campaign-module p {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--c-muted);
+}
+.campaign-note {
+  font-size: 12.5px;
+  color: var(--c-muted);
+  margin: 0 0 26px;
+}
+@media (max-width: 900px) {
+  .campaign-grid { grid-template-columns: 1fr; }
+  .campaign-poster img { max-width: 320px; margin: 0 auto; }
+}

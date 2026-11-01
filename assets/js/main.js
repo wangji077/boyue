@@ -84,8 +84,14 @@
         slides[cur].classList.add('is-on');
         if (dots[cur]) dots[cur].classList.add('is-on');
       };
+      var paused = false;
+      var heroMedia = document.querySelector('.hero-media');
+      if (heroMedia) {
+        heroMedia.addEventListener('mouseenter', function () { paused = true; });
+        heroMedia.addEventListener('mouseleave', function () { paused = false; });
+      }
       var play = function () {
-        timer = setInterval(function () { show(cur + 1); }, 2000);
+        timer = setInterval(function () { if (!paused) show(cur + 1); }, 2000);
       };
 
       dots.forEach(function (b, i) {
