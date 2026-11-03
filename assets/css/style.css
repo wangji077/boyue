@@ -2260,3 +2260,188 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
 @media (max-width: 720px) {
   .hero-media .slide .poster-pc { display: none; }
 }
+
+/* ---------- 34. 在线选材图册（硬装 materials.html） ---------- */
+.campaign-cta-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+.catalog-head {
+  max-width: 760px;
+  margin-bottom: clamp(30px, 4.5vw, 56px);
+}
+.catalog-head h2 {
+  font-size: clamp(28px, 3.4vw, 44px);
+  letter-spacing: .04em;
+  margin: 10px 0 14px;
+}
+.catalog-head h2 em {
+  font-style: normal;
+  color: #BC9464;
+}
+.catalog-head p { color: var(--c-muted); line-height: 1.9; }
+
+.cat-group { margin-bottom: clamp(40px, 5.5vw, 68px); }
+.cat-gtitle {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: .08em;
+  margin-bottom: 20px;
+  color: var(--c-ink);
+}
+.cat-gcount {
+  font-size: 12px;
+  color: var(--c-muted);
+  letter-spacing: .2em;
+  font-weight: 400;
+}
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.cat-card {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: zoom-in;
+  text-align: left;
+  color: inherit;
+  font: inherit;
+}
+.cat-thumb-wrap {
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--c-paper-alt);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .28);
+}
+.cat-thumb-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform .5s var(--ease, ease);
+}
+.cat-card:hover .cat-thumb-wrap img { transform: scale(1.045); }
+.cat-vr-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: linear-gradient(165deg, #BC9464, #A27B4C);
+  color: #FFFFFF;
+  font-size: 11px;
+  letter-spacing: .1em;
+  padding: 4px 9px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+}
+.cat-plabel {
+  display: block;
+  margin-top: 9px;
+  font-size: 12px;
+  color: var(--c-muted);
+  letter-spacing: .14em;
+}
+.catalog-cta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* 图册灯箱 */
+.cat-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(12, 11, 10, .95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 76px 96px;
+}
+.cat-lightbox[hidden] { display: none; }
+.cat-lb-img {
+  max-width: min(92vw, 720px);
+  max-height: calc(100svh - 180px);
+  border-radius: 6px;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, .55);
+}
+.cat-lb-label {
+  position: absolute;
+  top: 22px;
+  left: 26px;
+  color: #ECECEC;
+  font-size: 13px;
+  letter-spacing: .18em;
+}
+.cat-lb-close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: none;
+  border: 0;
+  color: #FFFFFF;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px;
+}
+.cat-lb-prev,
+.cat-lb-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 0;
+  background: rgba(255, 255, 255, .1);
+  color: #FFFFFF;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .3s ease;
+}
+.cat-lb-prev { left: 18px; }
+.cat-lb-next { right: 18px; }
+.cat-lb-prev:hover,
+.cat-lb-next:hover { background: rgba(255, 255, 255, .24); }
+.cat-lb-vr {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 92vw;
+}
+.cat-lb-vrbtn {
+  background: linear-gradient(165deg, #BC9464, #A27B4C);
+  color: #FFFFFF;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: .12em;
+  white-space: nowrap;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.cat-lb-vrbtn:hover { opacity: .88; transform: translateY(-2px); }
+.cat-lb-novr { color: rgba(255, 255, 255, .38); font-size: 12px; letter-spacing: .1em; }
+
+@media (max-width: 720px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .cat-lightbox { padding: 52px 12px 92px; }
+  .cat-lb-img { max-height: calc(100svh - 170px); }
+  .cat-lb-prev, .cat-lb-next { width: 38px; height: 38px; font-size: 22px; }
+  .cat-lb-prev { left: 8px; }
+  .cat-lb-next { right: 8px; }
+}
