@@ -2483,7 +2483,7 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
 }
 
 /* ---------- 35. 图册分组锚点 + 待上线占位 ---------- */
-.cat-group { scroll-margin-top: 92px; }
+.cat-album, .cat-gtitle { scroll-margin-top: 92px; }
 /* 顶部导航遮挡补偿：跳转后分组标题留出呼吸空间 */
 #catalog { scroll-margin-top: 80px; }
 .cat-empty {
@@ -2505,3 +2505,56 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   line-height: 1.8;
 }
 .cat-empty .btn { flex-shrink: 0; }
+
+/* ---------- 36. 多品牌图册：品牌导航条 + 图册章节 ---------- */
+.cat-chips {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 40;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 10px 4px 12px;
+  margin-bottom: clamp(26px, 3.5vw, 44px);
+  background: linear-gradient(180deg, var(--c-paper) 82%, rgba(30,30,30,0));
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.cat-chips::-webkit-scrollbar { display: none; }
+.cat-chip {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  color: var(--c-ink-soft);
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .3s ease, border-color .3s ease, background .3s ease;
+}
+.cat-chip:hover { color: #FFFFFF; border-color: #BC9464; }
+.cat-chip.is-active {
+  color: #FFFFFF;
+  border-color: #BC9464;
+  background: linear-gradient(165deg, #BC9464, #A27B4C);
+}
+.cat-album {
+  margin-bottom: clamp(48px, 6.5vw, 84px);
+}
+.cat-ahead { margin-bottom: 6px; }
+.cat-ahead h3 {
+  display: inline-block;
+  font-size: clamp(22px, 2.4vw, 30px);
+  letter-spacing: .08em;
+  margin: 0 14px 0 0;
+  color: var(--c-ink);
+  vertical-align: baseline;
+}
+.cat-anote {
+  margin: 8px 0 0;
+  color: var(--c-muted);
+  font-size: 13.5px;
+  line-height: 1.8;
+}
+.cat-album .cat-gtitle { margin-top: 26px; }

@@ -64,24 +64,61 @@
           <p class="campaign-intro">Great products make a great home. BOYUE Select coordinates window and door systems with whole-home appliances — one team, one point of contact, from aluminium windows to kitchen appliances.</p>
           <ul class="campaign-list">
         <li class="campaign-module">
-          <span class="num">01</span>
-          <div><h3>Window & Door Systems</h3><p>Aluminium windows, sunrooms, entry doors</p></div>
+          <a class="campaign-module-link" href="#al-mingshi">
+            <span class="num">01</span>
+            <div class="campaign-module-text"><h3>Window & Door Systems</h3><p>Aluminium windows, sunrooms, entry doors</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
         <li class="campaign-module">
-          <span class="num">02</span>
-          <div><h3>Appliances</h3><p>Kitchen, air-conditioning and whole-home packages</p></div>
+          <a class="campaign-module-link" href="#al-shower">
+            <span class="num">02</span>
+            <div class="campaign-module-text"><h3>Bathroom Partitions</h3><p>Shower enclosures, glass partitions and hardware</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
         <li class="campaign-module">
           <span class="num">03</span>
+          <div><h3>Appliances</h3><p>Kitchen, air-conditioning and whole-home packages</p></div>
+        </li>
+        <li class="campaign-module">
+          <span class="num">04</span>
           <div><h3>Smart Home</h3><p>Locks, lighting and smart controls</p></div>
         </li>
           </ul>
-          <p class="campaign-note">This page is under construction — the full catalogue is coming soon. Meanwhile, feel free to reach out directly.</p>
-          <a class="btn btn--solid" href="contact-en.html"><span>Enquire Now</span><span aria-hidden="true">→</span></a>
+          <p class="campaign-note">Full product catalogs are now online below — Mingshi doors & windows, YOMU shower systems, premium shower enclosures and more, 4 catalogs / 137 pages. Click any page to zoom in. Contact us for the full PDF or quotations.</p>
+          <div class="campaign-cta-row">
+            <a class="btn btn--solid" href="#catalog"><span>Browse Catalogs</span><span aria-hidden="true">↓</span></a>
+            <a class="btn btn--ghost" href="contact-en.html"><span>Enquire Now</span><span aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <section class="sec catalog-sec" id="catalog" style="padding-top:0">
+    <div class="wrap">
+      <div class="catalog-head reveal">
+        <span class="eyebrow">Product Catalogs · 产品图册</span>
+        <h2>Online Product Catalogs <em>4 Sets · 137 Pages</em></h2>
+        <p>Mingshi doors & windows, YOMU shower systems, premium shower enclosures and the 2023 shower brochure — click any page to inspect products and specifications up close.</p>
+      </div>
+      <div id="catalog-root"><!-- rendered by catalog-render.js --></div>
+      <div class="catalog-cta reveal">
+        <a class="btn btn--solid js-wa-pdf" href="https://wa.me/8613826418588" target="_blank" rel="noopener"><span>Get Full Catalogs & Quotes</span><span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="contact-en.html"><span>Book a Showroom Visit</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="cat-lightbox" id="catLightbox" hidden role="dialog" aria-modal="true" aria-label="Catalog viewer">
+    <span class="cat-lb-label"></span>
+    <button class="cat-lb-close" type="button" aria-label="Close">×</button>
+    <button class="cat-lb-prev" type="button" aria-label="Previous page">‹</button>
+    <img class="cat-lb-img" src="" alt="">
+    <button class="cat-lb-next" type="button" aria-label="Next page">›</button>
+    <div class="cat-lb-vr"></div>
+  </div>
 
 </main>
 
@@ -118,7 +155,11 @@
   </a>
 </div>
 
+<script>window.LANG = 'en';</script>
+<script>window.CATALOG_SCOPE = 'doors';</script>
 <script src="assets/js/config.js"></script>
+<script src="assets/js/catalog-data.js"></script>
+<script src="assets/js/catalog-render.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

@@ -85,7 +85,7 @@
           </a>
         </li>
           </ul>
-          <p class="campaign-note">下方完整收录《设计与选材手册》在线版：整册 27 页可直接翻阅放大，部分系列支持查看 3D 实铺效果；如需完整 PDF 手册或实物样板，欢迎联系我们。</p>
+          <p class="campaign-note">下方完整收录《设计与选材手册》及千年舟、北培、隆饰、玉宝树、彩臻、莫干山等品牌手册：8 套 133 页在线翻阅放大，部分系列支持查看 3D 实铺效果；如需完整 PDF 或实物样板，欢迎联系我们。</p>
           <div class="campaign-cta-row">
             <a class="btn btn--solid" href="#catalog"><span>翻阅在线图册</span><span aria-hidden="true">↓</span></a>
             <a class="btn btn--ghost" href="contact.html"><span>咨询选材方案</span><span aria-hidden="true">→</span></a>
@@ -99,8 +99,8 @@
     <div class="wrap">
       <div class="catalog-head reveal">
         <span class="eyebrow">Online Catalog · 设计与选材手册</span>
-        <h2>在线选材手册 <em>27 页</em></h2>
-        <p>点击任意页面即可放大细看每一块板材的纹理；带「3D 实景」角标的系列，放大后可一键查看板材铺进真实空间的效果。</p>
+        <h2>在线选材手册 <em>8 套 · 133 页</em></h2>
+        <p>博粤精选 + 千年舟、北培、隆饰、玉宝树、彩臻、莫干山等品牌手册，共 133 页在线翻阅；点击任意页面放大细看纹理，带「3D 实景」角标的页面可查看板材铺进真实空间的效果。</p>
       </div>
       <div id="catalog-root"><!-- 由 catalog-data.js 渲染 --></div>
       <div class="catalog-cta reveal">
@@ -157,143 +157,10 @@
 <script src="assets/js/config.js"></script>
 <script src="assets/js/catalog-data.js"></script>
 <script src="assets/js/main.js" defer></script>
-<script>
-/* 在线选材图册：分组渲染 + 灯箱 + 3D 实景链接 */
-(function () {
-  var en = window.LANG === 'en';
-  var C = window.CATALOG;
-  var root = document.getElementById('catalog-root');
-  if (!root || !C) return;
-
-  var flat = [];
-  var pad = function (n) { return ('0' + n).slice(-2); };
-
-  C.groups.forEach(function (g) {
-    var sec = document.createElement('div');
-    sec.className = 'cat-group';
-    sec.id = 'g-' + g.id;
-    var title = document.createElement('h3');
-    title.className = 'cat-gtitle';
-    var gcount = g.pages.length
-      ? (g.pages.length + ' PAGES')
-      : (en ? 'COMING SOON' : '即将上线');
-    title.innerHTML = (en ? g.en : g.zh) + '<span class="cat-gcount">' + gcount + '</span>';
-    var grid = document.createElement('div');
-    grid.className = 'cat-grid';
-    g.pages.forEach(function (p) {
-      var info = C.pages[p] || { vr: [] };
-      var idx = flat.length;
-      flat.push({ p: p, g: g, vr: info.vr });
-      var card = document.createElement('button');
-      card.type = 'button';
-      card.className = 'cat-card';
-      card.setAttribute('aria-label', (en ? g.en : g.zh) + ' P' + p);
-      card.innerHTML =
-        '<span class="cat-thumb-wrap">' +
-          '<img src="assets/img/catalog/cat-' + pad(p) + 't.jpg" alt="' + (en ? g.en : g.zh) + ' P' + p + '" width="480" height="676" loading="lazy">' +
-          (info.vr.length ? '<span class="cat-vr-badge">3D ×' + info.vr.length + '</span>' : '') +
-        '</span>' +
-        '<span class="cat-plabel">P' + p + ' · ' + (en ? g.en : g.zh) + '</span>';
-      card.addEventListener('click', function () { catOpen(idx); });
-      grid.appendChild(card);
-    });
-    sec.appendChild(title);
-    if (!g.pages.length) {
-      var empty = document.createElement('div');
-      empty.className = 'cat-empty';
-      empty.innerHTML = '<p>' + (en ? 'This series is being prepared — new pages coming soon.' : '该系列资料整理中，新版页面即将上线。') + '</p>' +
-        '<a class="btn btn--ghost" href="' + (en ? 'contact-en.html' : 'contact.html') + '"><span>' + (en ? 'Enquire in advance' : '提前咨询') + '</span><span aria-hidden="true">→</span></a>';
-      sec.appendChild(empty);
-    } else {
-      sec.appendChild(grid);
-    }
-    root.appendChild(sec);
-  });
-
-  /* ---- 灯箱 ---- */
-  var lb = document.getElementById('catLightbox');
-  var lbImg = lb.querySelector('.cat-lb-img');
-  var lbLabel = lb.querySelector('.cat-lb-label');
-  var lbVr = lb.querySelector('.cat-lb-vr');
-  var cur = 0;
-
-  function render() {
-    var it = flat[cur];
-    lbImg.src = 'assets/img/catalog/cat-' + pad(it.p) + 'f.jpg';
-    lbImg.alt = (en ? it.g.en : it.g.zh) + ' P' + it.p;
-    lbLabel.textContent = 'P' + it.p + ' · ' + (en ? it.g.en : it.g.zh);
-    lbVr.innerHTML = '';
-    if (it.vr.length) {
-      it.vr.forEach(function (u, k) {
-        var a = document.createElement('a');
-        a.href = u;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.className = 'cat-lb-vrbtn';
-        a.textContent = it.vr.length > 1
-          ? (en ? '3D View ' + (k + 1) : '3D 实景 ' + (k + 1))
-          : (en ? 'View 3D Space' : '查看 3D 实景');
-        lbVr.appendChild(a);
-      });
-    } else {
-      var s = document.createElement('span');
-      s.className = 'cat-lb-novr';
-      s.textContent = en ? '' : '该页暂无 3D 实景';
-      lbVr.appendChild(s);
-    }
-    /* 预加载相邻页大图 */
-    [cur + 1, cur - 1].forEach(function (n) {
-      if (n >= 0 && n < flat.length) {
-        var im = new Image();
-        im.src = 'assets/img/catalog/cat-' + pad(flat[n].p) + 'f.jpg';
-      }
-    });
-  }
-  window.catOpen = function (i) {
-    cur = i;
-    render();
-    lb.hidden = false;
-    document.body.style.overflow = 'hidden';
-  };
-  function catClose() {
-    lb.hidden = true;
-    document.body.style.overflow = '';
-  }
-  function catStep(d) {
-    cur = (cur + d + flat.length) % flat.length;
-    render();
-  }
-  lb.querySelector('.cat-lb-close').addEventListener('click', catClose);
-  lb.querySelector('.cat-lb-prev').addEventListener('click', function () { catStep(-1); });
-  lb.querySelector('.cat-lb-next').addEventListener('click', function () { catStep(1); });
-  lb.addEventListener('click', function (e) { if (e.target === lb) catClose(); });
-  document.addEventListener('keydown', function (e) {
-    if (lb.hidden) return;
-    if (e.key === 'Escape') catClose();
-    else if (e.key === 'ArrowLeft') catStep(-1);
-    else if (e.key === 'ArrowRight') catStep(1);
-  });
-
-  /* ---- 品类按钮：JS 平滑滚动兜底（带导航条高度补偿） ---- */
-  document.querySelectorAll('.campaign-module-link[href^="#g-"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      var t = document.getElementById(a.getAttribute('href').slice(1));
-      if (!t) return;
-      e.preventDefault();
-      t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', a.getAttribute('href'));
-    });
-  });
-
-  /* ---- CTA：WhatsApp 预填"索取 PDF 手册" ---- */
-  var pdfBtn = document.querySelector('.js-wa-pdf');
-  if (pdfBtn) {
-    var msg = en
-      ? 'Hello BOYUE, I would like to get the full Hard Finishes Materials catalog (PDF).'
-      : '您好，我想索取博粤《硬装选材手册》完整 PDF 版。';
-    pdfBtn.href = 'https://wa.me/8613826418588?text=' + encodeURIComponent(msg);
-  }
-})();
-</script>
+<script>window.CATALOG_SCOPE = 'materials';</script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/catalog-data.js"></script>
+<script src="assets/js/catalog-render.js" defer></script>
+<script src="assets/js/main.js" defer></script>
 </body>
 </html>

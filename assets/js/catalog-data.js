@@ -1,44 +1,62 @@
-/* 博粤美装 · 硬装选材在线图册数据（由 qr_links.csv 自动生成，勿手改链接）
- * 页面图：assets/img/catalog/cat-{NN}t.jpg（缩略）/ cat-{NN}f.jpg（大图）
- * vr：该页二维码对应的 3D 实铺效果链接（来源：图册原书二维码机器识别）
+/* 博粤美装 · 在线图册数据（由 AAA-图册文件 交付包整理生成）
+ * 图片路径：assets/img/catalog/{album.dir}/cat-{NN}t.jpg（缩略）/ cat-{NN}f.jpg（大图）
+ * pagesVr：页码 → 3D 实铺效果链接（仅博粤精选册有可靠识别结果）
+ * window.CATALOG_SCOPE 决定页面取用哪一组（materials=硬装 / doors=博粤甄选）
  */
 window.CATALOG = {
-  groups: [
-    { id: 'guide', zh: '板材知识', en: 'Panel Knowledge', pages: [2, 3] },
-    { id: 'stone', zh: '石纹系列', en: 'Stone Series', pages: [5, 6, 7, 8] },
-    { id: 'panel', zh: '木饰面大板', en: 'Wood Panels', pages: [9, 10, 11, 12, 13] },
-    { id: 'wood', zh: '经典木纹', en: 'Classic Woodgrain', pages: [14, 15, 16, 17, 18, 19, 20] },
-    { id: 'solid', zh: '纯色布纹', en: 'Solid & Fabric', pages: [21, 22, 23, 24, 25] },
-    { id: 'palette', zh: '多色拼板', en: 'Colour Palettes', pages: [26, 27, 28, 29] },
-    { id: 'metal', zh: '金属细节', en: 'Metal Details', pages: [] },
+  materials: [
+    {
+      id: 'boyue', zh: '博粤精选', en: 'BOYUE Selection', dir: 'boyue',
+      note: { zh: '博粤自有《设计与选材手册》，六大系列 27 页', en: 'BOYUE in-house Design & Materials Handbook, 27 pages' },
+      groups: [
+        { id: 'guide',   zh: '板材知识',   en: 'Panel Knowledge',   pages: [2, 3] },
+        { id: 'stone',   zh: '石纹系列',   en: 'Stone Series',      pages: [5, 6, 7, 8] },
+        { id: 'panel',   zh: '木饰面大板', en: 'Wood Panels',       pages: [9, 10, 11, 12, 13] },
+        { id: 'wood',    zh: '经典木纹',   en: 'Classic Woodgrain', pages: [14, 15, 16, 17, 18, 19, 20] },
+        { id: 'solid',   zh: '纯色布纹',   en: 'Solid & Fabric',    pages: [21, 22, 23, 24, 25] },
+        { id: 'palette', zh: '多色拼板',   en: 'Colour Palettes',   pages: [26, 27, 28, 29] },
+        { id: 'metal',   zh: '金属细节',   en: 'Metal Details',     pages: [] }
+      ],
+      pagesVr: {
+        5: ['https://vr.justeasy.cn/view/817h6f3584387t48-1763543748.html'],
+        6: ['https://vr.justeasy.cn/view/11g7y6v35493f814-1763543814.html'],
+        7: ['https://vr.justeasy.cn/view/176gcx3545j93761-1763543761.html'],
+        8: ['https://vr.justeasy.cn/view/917z6tny3b543829-1763543829.html'],
+        9: ['https://vr.justeasy.cn/view/217634nq5437a6u8-1763543768.html', 'https://vr.justeasy.cn/view/de0t910763543874-1763543874.html'],
+        10: ['https://vr.justeasy.cn/view/0q21716w3g543977-1763543977.html', 'https://vr.justeasy.cn/view/17urn6w33543x837-1763543837.html'],
+        11: ['https://vr.justeasy.cn/view/17631354ht37p745-1763543775.html', 'https://vr.justeasy.cn/view/811qy0v3h509c29-1763543879.html'],
+        12: ['https://vr.justeasy.cn/view/8159u735u4c3h909-1763543909.html', 'https://vr.justeasy.cn/view/5131i1v35j4m3i51-1763543917.html'],
+        13: ['https://vr.justeasy.cn/view/1114t7q35d5i4t74-1763543923.html'],
+        14: ['https://vr.justeasy.cn/view/3139p3g35d4a3r72-1763543929.html', 'https://vr.justeasy.cn/view/4161i4e35k4s4i60-1763543939.html'],
+        15: ['https://vr.justeasy.cn/view/5161v5n35n4n5v47-1763543944.html', 'https://vr.justeasy.cn/view/8181q8v35j949h43-1763543950.html'],
+        16: ['https://vr.justeasy.cn/view/1169h1w35q5q1w56-1763543954.html', 'https://vr.justeasy.cn/view/1131u3q35t5c3i57-1763543958.html'],
+        17: ['https://vr.justeasy.cn/view/3134v3y35e4t3u58-1763543962.html'],
+        18: ['https://vr.justeasy.cn/view/7173w7n35r4w7r60-1763543966.html'],
+        19: ['https://vr.justeasy.cn/view/9192j9r35k4j9v63-1763543971.html', 'https://vr.justeasy.cn/view/7172e7l35l4r7f66-1763543974.html'],
+        20: ['https://vr.justeasy.cn/view/0q21716w3g543977-1763543977.html', 'https://vr.justeasy.cn/view/17urn6w33543x837-1763543837.html'],
+        21: ['https://vr.justeasy.cn/view/8187y8g35y4v8t68-1763543984.html', 'https://vr.justeasy.cn/view/9191m9v35s4c9n68-1763543988.html'],
+        22: ['https://vr.justeasy.cn/view/6167e6y35q4w6s71-1763543993.html', 'https://vr.justeasy.cn/view/4143d4w35b4c4r74-1763543997.html'],
+        23: ['https://vr.justeasy.cn/view/3135a3h35r4s3t00-1763544000.html'],
+        24: ['https://vr.justeasy.cn/view/6163a6q35g4m6u03-1763544005.html', 'https://vr.justeasy.cn/view/3134j3y35x4m3t07-1763544009.html'],
+        25: ['https://vr.justeasy.cn/view/7171r7h35y4h7r12-1763544013.html'],
+        26: ['https://vr.justeasy.cn/view/1163s1y35p4s1u16-1763544018.html', 'https://vr.justeasy.cn/view/4146r4k35f4f4h21-1763544023.html'],
+        27: ['https://vr.justeasy.cn/view/8188g8j35w4b8t26-1763544028.html', 'https://vr.justeasy.cn/view/3135u3i35t4r3v30.html', 'https://vr.justeasy.cn/view/5155c5b35c4f5j33.html', 'https://vr.justeasy.cn/view/9197y9k35u4v9c36.html', 'https://vr.justeasy.cn/view/2163m2y35b4e2f40.html', 'https://vr.justeasy.cn/view/7177s7m35h4x7t45.html'],
+        28: ['https://vr.justeasy.cn/view/5156v5g35u4t5i47.html', 'https://vr.justeasy.cn/view/3131n3d35p4r3u51.html', 'https://vr.justeasy.cn/view/8183k8v35y4z8f55.html', 'https://vr.justeasy.cn/view/3139x3g35h4p3u58.html', 'https://vr.justeasy.cn/view/9192c9v35x4m9b62.html', 'https://vr.justeasy.cn/view/7176q7t35r4s7u66.html'],
+        29: ['https://vr.justeasy.cn/view/1162b1m35v4c1s70.html', 'https://vr.justeasy.cn/view/3136p3v35y4s3q73.html', 'https://vr.justeasy.cn/view/6165x6t35j4g6f76.html', 'https://vr.justeasy.cn/view/8189y8h35n4x8s80.html']
+      }
+    },
+    { id: 'qsn-board', zh: '千年舟 · 博粤板材', en: 'Qiannianzhou Boards', dir: 'qsn-board', count: 20 },
+    { id: 'qsn-color', zh: '千年舟 · 石墨烯电子色卡', en: 'Qiannianzhou Colour Cards', dir: 'qsn-color', count: 19 },
+    { id: 'beipei',    zh: '北培板材', en: 'Beipei Boards', dir: 'beipei', count: 8 },
+    { id: 'longshi',   zh: '隆饰板材', en: 'Longshi Boards', dir: 'longshi', count: 16 },
+    { id: 'yubaoshu',  zh: '玉宝树海洋板', en: 'Yubaoshu Ocean Boards', dir: 'yubaoshu', count: 21 },
+    { id: 'caizhen',   zh: '彩臻系列', en: 'Caizhen Series', dir: 'caizhen', count: 10 },
+    { id: 'moganshan', zh: '莫干山板材', en: 'Moganshan Boards', dir: 'moganshan', count: 12 }
   ],
-  pages: {
-    2: { vr: [] },
-    3: { vr: [] },
-    5: { vr: ['https://vr.justeasy.cn/view/817h6f3584387t48-1763543748.html'] },
-    6: { vr: ['https://vr.justeasy.cn/view/11g7y6v35493f814-1763543814.html'] },
-    7: { vr: ['https://vr.justeasy.cn/view/176gcx3545j93761-1763543761.html'] },
-    8: { vr: ['https://vr.justeasy.cn/view/917z6tny3b543829-1763543829.html'] },
-    9: { vr: ['https://vr.justeasy.cn/view/217634nq5437a6u8-1763543768.html', 'https://vr.justeasy.cn/view/de0t910763543874-1763543874.html'] },
-    10: { vr: ['https://vr.justeasy.cn/view/0q21716w3g543977-1763543977.html', 'https://vr.justeasy.cn/view/17urn6w33543x837-1763543837.html'] },
-    11: { vr: ['https://vr.justeasy.cn/view/17631354ht37p745-1763543775.html', 'https://vr.justeasy.cn/view/2197635438j8tp90-1763543880.html'] },
-    12: { vr: ['https://vr.justeasy.cn/view/176g335s43980664-1763543984.html', 'https://vr.justeasy.cn/view/vrt137635c4h3844-1763543844.html'] },
-    13: { vr: ['https://vr.justeasy.cn/view/1zj07635b4372884-1763543784.html'] },
-    14: { vr: ['https://vr.justeasy.cn/view/51746350d43r99t1-1763543991.html', 'https://vr.justeasy.cn/view/1976p3e54cv38p50-1763543850.html'] },
-    15: { vr: ['https://vr.justeasy.cn/view/176354r95319n792-1763543792.html', 'https://vr.justeasy.cn/view/1rv7635431i897m5-1763543895.html'] },
-    16: { vr: ['https://vr.justeasy.cn/view/t1176f3543q9r9p7-1763543997.html', 'https://vr.justeasy.cn/view/1rh17643v5493857-1763543857.html'] },
-    17: { vr: ['https://vr.justeasy.cn/view/rm1y7635435lq908-1763543908.html'] },
-    18: { vr: ['https://vr.justeasy.cn/view/3u1706735440q1s1-1763544011.html'] },
-    19: { vr: ['https://vr.justeasy.cn/view/1765s3594391ycv4-1763543914.html', 'https://vr.justeasy.cn/view/17635z43a9gjwk20-1763543920.html'] },
-    20: { vr: ['https://vr.justeasy.cn/view/16e4761i35d44026-1763544026.html', 'https://vr.justeasy.cn/view/7176354c6wa40s19-1763544019.html'] },
-    21: { vr: ['https://vr.justeasy.cn/view/176n3543n924sht7-1763543927.html', 'https://vr.justeasy.cn/view/1763y5n244ph3934-1763543934.html'] },
-    22: { vr: ['https://vr.justeasy.cn/view/41768d3654t84039-1763544039.html', 'https://vr.justeasy.cn/view/17603hkz59440a32-1763544032.html'] },
-    23: { vr: ['https://vr.justeasy.cn/view/n1764u038k417wc7-1764038418.html'] },
-    24: { vr: ['https://vr.justeasy.cn/view/s1d78635v440pl52-1763544052.html', 'https://vr.justeasy.cn/view/1p76x4j038np4099-1764038409.html'] },
-    25: { vr: ['https://vr.justeasy.cn/view/fe1y7s6a3l543969-1763543969.html'] },
-    26: { vr: ['https://vr.justeasy.cn/view/1761305477k84082-1763544082.html', 'https://vr.justeasy.cn/view/17f6gw3he54s4074-1763544074.html'] },
-    27: { vr: ['https://vr.justeasy.cn/view/217635n8rw044093-1763544093.html', 'https://vr.justeasy.cn/view/d1763556494324b0-1763544505.html', 'https://vr.justeasy.cn/view/k17p6354w41m5q05-1763544105.html', 'https://vr.justeasy.cn/view/17676z3504435jz3-1763544513.html', 'https://vr.justeasy.cn/view/o17e6o9w3u544112-1763544112.html', 'https://vr.justeasy.cn/view/1763fhg54z4ue346-1763544522.html'] },
-    28: { vr: ['https://vr.justeasy.cn/view/b6176z3hd544o385-1763544575.html', 'https://vr.justeasy.cn/view/170563e544hw3w79-1763544584.html', 'https://vr.justeasy.cn/view/1z76t233544e3941-1763544593.html', 'https://vr.justeasy.cn/view/1f7635ca4642p8b5-1763544432.html', 'https://vr.justeasy.cn/view/1576354q43jai606-1763544446.html', 'https://vr.justeasy.cn/view/14m763a542764313-1763544454.html'] },
-    29: { vr: ['https://vr.justeasy.cn/view/12g7665354t41o19-1763544119.html', 'https://vr.justeasy.cn/view/ur17x6cc35443168-1763544557.html', 'https://vr.justeasy.cn/view/e1763590hc440363-1763544548.html', 'https://vr.justeasy.cn/view/jj176f3544j3zn73-1763544565.html'] },
-  }
+  doors: [
+    { id: 'mingshi',  zh: '铭师门窗', en: 'Mingshi Doors & Windows', dir: 'mingshi', count: 59 },
+    { id: 'yomu',     zh: '优沐 YOMU 淋浴系统', en: 'YOMU Shower Systems', dir: 'yomu', count: 44 },
+    { id: 'shower',   zh: '高端淋浴房', en: 'Premium Shower Enclosures', dir: 'shower', count: 27 },
+    { id: 'shower23', zh: '2023 淋浴精选册', en: '2023 Shower Brochure', dir: 'shower23', count: 7 }
+  ]
 };
