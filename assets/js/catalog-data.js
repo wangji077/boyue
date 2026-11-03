@@ -10,16 +10,16 @@ window.CATALOG = {
     {
       id: 'board', zh: '硬装板材馆', en: 'Surface Collection', dir: 'boyue',
       note: {
-        zh: '石纹 / 木纹 / 木饰面 / 纯色 / 多色 / 布纹 六大纹理，相似花色归组陈列',
-        en: 'Six texture families — Stone, Woodgrain, Veneer, Solid, Palette, Fabric — similar finishes grouped together'
+        zh: '石纹 / 木纹 / 木饰面 / 纯色 / 多色 五大纹理，相似花色归组陈列',
+        en: 'Five texture families — Stone, Woodgrain, Veneer, Solid, Palette — similar finishes grouped together'
       },
       groups: [
         { id: 'stone',   zh: '石纹',   en: 'Stone',          pages: ['boyue/5', 'boyue/6', 'boyue/7', 'boyue/8', 'longshi/8', 'longshi/9', 'yubaoshu/17'] },
         { id: 'wood',    zh: '木纹',   en: 'Woodgrain',      pages: [
           'boyue/9', 'boyue/10', 'boyue/11', 'boyue/12', 'boyue/13', 'boyue/14', 'boyue/15', 'boyue/16', 'boyue/17', 'boyue/18', 'boyue/19', 'boyue/20', 'boyue/21', 'boyue/22',
-          'qsn-color/1', 'qsn-color/2', 'qsn-color/3', 'qsn-color/4', 'qsn-color/5', 'qsn-color/6', 'qsn-color/7', 'qsn-color/8', 'qsn-color/9', 'qsn-color/10', 'qsn-color/11', 'qsn-color/12', 'qsn-color/13', 'qsn-color/14',
+          'qsn-color/1', 'qsn-color/2', 'qsn-color/3', 'qsn-color/4', 'qsn-color/5', 'qsn-color/6', 'qsn-color/7', 'qsn-color/8', 'qsn-color/9', 'qsn-color/10', 'qsn-color/11', 'qsn-color/12', 'qsn-color/13', 'qsn-color/14', 'qsn-color/15',
           'yubaoshu/1', 'yubaoshu/2', 'yubaoshu/3', 'yubaoshu/4', 'yubaoshu/5', 'yubaoshu/6', 'yubaoshu/7', 'yubaoshu/8', 'yubaoshu/9', 'yubaoshu/10', 'yubaoshu/11', 'yubaoshu/12', 'yubaoshu/13', 'yubaoshu/14', 'yubaoshu/15', 'yubaoshu/16',
-          'beipei/6'
+          'beipei/2', 'beipei/3', 'beipei/4', 'beipei/5', 'beipei/6'
         ] },
         { id: 'veneer',  zh: '木饰面', en: 'Veneer Panels',  pages: [
           'longshi/2', 'longshi/3', 'longshi/4', 'longshi/5', 'longshi/6', 'longshi/7', 'longshi/10', 'longshi/11', 'longshi/12', 'longshi/13', 'longshi/14', 'longshi/15',
@@ -35,12 +35,7 @@ window.CATALOG = {
         { id: 'palette', zh: '多色',   en: 'Colour Palette', pages: [
           'qsn-color/17', 'qsn-color/18', 'qsn-color/19',
           'yubaoshu/18', 'yubaoshu/19', 'yubaoshu/20', 'yubaoshu/21'
-        ] },
-        { id: 'fabric',  zh: '布纹',   en: 'Fabric',         pages: [
-          'beipei/2', 'beipei/3', 'beipei/4', 'beipei/5',
-          'qsn-color/15'
-        ] },
-        { id: 'metal',   zh: '金属细节', en: 'Metal Details', pages: [] }
+        ] }
       ],
       pagesVr: {
         'boyue/5':  ['https://vr.justeasy.cn/view/817h6f3584387t48-1763543748.html'],
