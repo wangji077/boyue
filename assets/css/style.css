@@ -2102,11 +2102,38 @@ body.page-home .site-header .lang-switch { opacity: 1; pointer-events: auto; }
   padding: 0;
 }
 .campaign-module {
+  border-top: 1px solid var(--c-line);
+}
+/* 三个品类做成可点击按钮：整行可点，悬停高亮 + 箭头右移 */
+.campaign-module-link {
+  position: relative;
   display: flex;
   gap: 22px;
-  padding: 20px 0;
-  border-top: 1px solid var(--c-line);
-  align-items: baseline;
+  align-items: center;
+  padding: 20px 14px 20px 12px;
+  margin: 0 -14px 0 -12px;
+  color: inherit;
+  text-decoration: none;
+  transition: background .35s var(--ease, ease);
+}
+.campaign-module-link:hover,
+.campaign-module-link:focus-visible {
+  background: rgba(188, 148, 100, .1);
+}
+.campaign-module-text { display: block; flex: 1; min-width: 0; }
+.campaign-module-arrow {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: #BC9464;
+  font-size: 17px;
+  line-height: 1;
+  opacity: .5;
+  transition: opacity .3s ease, transform .3s ease;
+}
+.campaign-module-link:hover .campaign-module-arrow,
+.campaign-module-link:focus-visible .campaign-module-arrow {
+  opacity: 1;
+  transform: translateX(5px);
 }
 .campaign-module:last-child { border-bottom: 1px solid var(--c-line); }
 .campaign-module .num {
@@ -2445,3 +2472,27 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   .cat-lb-prev { left: 8px; }
   .cat-lb-next { right: 8px; }
 }
+
+/* ---------- 35. 图册分组锚点 + 待上线占位 ---------- */
+.cat-group { scroll-margin-top: 92px; }
+/* 顶部导航遮挡补偿：跳转后分组标题留出呼吸空间 */
+#catalog { scroll-margin-top: 80px; }
+.cat-empty {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 32px 26px;
+  border: 1px dashed var(--c-line);
+  border-radius: 12px;
+  background: var(--c-paper-alt);
+}
+.cat-empty p {
+  margin: 0;
+  flex: 1;
+  min-width: 220px;
+  color: var(--c-muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.cat-empty .btn { flex-shrink: 0; }

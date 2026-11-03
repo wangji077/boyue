@@ -64,16 +64,25 @@
           <p class="campaign-intro">好家的底子，从好材料开始。博粤整合佛山产业带的石材、木饰面与金属供应链，为新加坡与马来西亚项目提供整装硬装选材方案。</p>
           <ul class="campaign-list">
         <li class="campaign-module">
-          <span class="num">01</span>
-          <div><h3>石材</h3><p>大理石、岩板与石材应用</p></div>
+          <a class="campaign-module-link" href="#g-stone">
+            <span class="num">01</span>
+            <div class="campaign-module-text"><h3>石材</h3><p>大理石、岩板与石材应用</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
         <li class="campaign-module">
-          <span class="num">02</span>
-          <div><h3>木饰面</h3><p>天然木皮与科技木饰面</p></div>
+          <a class="campaign-module-link" href="#g-panel">
+            <span class="num">02</span>
+            <div class="campaign-module-text"><h3>木饰面</h3><p>天然木皮与科技木饰面</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
         <li class="campaign-module">
-          <span class="num">03</span>
-          <div><h3>金属细节</h3><p>不锈钢、黄铜收边与嵌条条</p></div>
+          <a class="campaign-module-link" href="#g-metal">
+            <span class="num">03</span>
+            <div class="campaign-module-text"><h3>金属细节</h3><p>不锈钢、黄铜收边与嵌条条</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
           </ul>
           <p class="campaign-note">下方完整收录《设计与选材手册》在线版：整册 27 页可直接翻阅放大，部分系列支持查看 3D 实铺效果；如需完整 PDF 手册或实物样板，欢迎联系我们。</p>
@@ -162,9 +171,13 @@
   C.groups.forEach(function (g) {
     var sec = document.createElement('div');
     sec.className = 'cat-group';
+    sec.id = 'g-' + g.id;
     var title = document.createElement('h3');
     title.className = 'cat-gtitle';
-    title.innerHTML = (en ? g.en : g.zh) + '<span class="cat-gcount">' + g.pages.length + ' PAGES</span>';
+    var gcount = g.pages.length
+      ? (g.pages.length + ' PAGES')
+      : (en ? 'COMING SOON' : '即将上线');
+    title.innerHTML = (en ? g.en : g.zh) + '<span class="cat-gcount">' + gcount + '</span>';
     var grid = document.createElement('div');
     grid.className = 'cat-grid';
     g.pages.forEach(function (p) {
@@ -185,7 +198,15 @@
       grid.appendChild(card);
     });
     sec.appendChild(title);
-    sec.appendChild(grid);
+    if (!g.pages.length) {
+      var empty = document.createElement('div');
+      empty.className = 'cat-empty';
+      empty.innerHTML = '<p>' + (en ? 'This series is being prepared — new pages coming soon.' : '该系列资料整理中，新版页面即将上线。') + '</p>' +
+        '<a class="btn btn--ghost" href="' + (en ? 'contact-en.html' : 'contact.html') + '"><span>' + (en ? 'Enquire in advance' : '提前咨询') + '</span><span aria-hidden="true">→</span></a>';
+      sec.appendChild(empty);
+    } else {
+      sec.appendChild(grid);
+    }
     root.appendChild(sec);
   });
 
@@ -251,6 +272,17 @@
     if (e.key === 'Escape') catClose();
     else if (e.key === 'ArrowLeft') catStep(-1);
     else if (e.key === 'ArrowRight') catStep(1);
+  });
+
+  /* ---- 品类按钮：JS 平滑滚动兜底（带导航条高度补偿） ---- */
+  document.querySelectorAll('.campaign-module-link[href^="#g-"]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if (!t) return;
+      e.preventDefault();
+      t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
   });
 
   /* ---- CTA：WhatsApp 预填"索取 PDF 手册" ---- */

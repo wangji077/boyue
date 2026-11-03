@@ -10,6 +10,7 @@ window.CATALOG = {
     { id: 'wood', zh: '经典木纹', en: 'Classic Woodgrain', pages: [14, 15, 16, 17, 18, 19, 20] },
     { id: 'solid', zh: '纯色布纹', en: 'Solid & Fabric', pages: [21, 22, 23, 24, 25] },
     { id: 'palette', zh: '多色拼板', en: 'Colour Palettes', pages: [26, 27, 28, 29] },
+    { id: 'metal', zh: '金属细节', en: 'Metal Details', pages: [] },
   ],
   pages: {
     2: { vr: [] },
