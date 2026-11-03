@@ -154,7 +154,45 @@
   var lbImg = lb.querySelector('.cat-lb-img');
   var lbLabel = lb.querySelector('.cat-lb-label');
   var lbVr = lb.querySelector('.cat-lb-vr');
+  var lbHots = lb.querySelector('.cat-lb-hots');
+  var lbQr = lb.querySelector('.cat-lb-qr');
   var cur = 0;
+
+  /* 二维码热区：数据来自各册交付包 qr_links.csv（qr-links.js），
+   * 坐标为官网大图像素值，这里按图片 naturalWidth/naturalHeight 换算成百分比，
+   * 图片无论怎么缩放，热区都精确覆盖原二维码位置。 */
+  function renderQr(it) {
+    if (!lbHots || !lbQr) return;
+    lbHots.innerHTML = '';
+    lbQr.innerHTML = '';
+    var rec = window.QR_LINKS && window.QR_LINKS[it.ref.dir + '/' + it.ref.n];
+    if (!rec || !rec.items || !rec.items.length) return;
+    var build = function () {
+      var nw = lbImg.naturalWidth, nh = lbImg.naturalHeight;
+      if (!nw || !nh) return;
+      rec.items.forEach(function (q, k) {
+        var a = document.createElement('a');
+        a.className = 'cat-lb-hot';
+        a.href = q.u;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.setAttribute('aria-label', (en ? 'QR code link ' : '二维码链接 ') + (q.q || k + 1));
+        a.style.left = (q.x / nw * 100) + '%';
+        a.style.top = (q.y / nh * 100) + '%';
+        a.style.width = (q.w / nw * 100) + '%';
+        a.style.height = (q.h / nh * 100) + '%';
+        lbHots.appendChild(a);
+        var l = document.createElement('a');
+        l.href = q.u;
+        l.target = '_blank';
+        l.rel = 'noopener noreferrer';
+        l.textContent = (en ? 'QR link ' : '二维码 ') + (q.q || k + 1);
+        lbQr.appendChild(l);
+      });
+    };
+    if (lbImg.complete && lbImg.naturalWidth) build();
+    else lbImg.onload = build;
+  }
 
   function render() {
     var it = flat[cur];
@@ -162,6 +200,7 @@
     lbImg.alt = it.label || '';
     lbLabel.textContent = it.label || '';
     lbVr.innerHTML = '';
+    renderQr(it);
     if (it.vr.length) {
       it.vr.forEach(function (u, k) {
         var a = document.createElement('a');

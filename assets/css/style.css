@@ -2408,6 +2408,54 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   border-radius: 6px;
   box-shadow: 0 12px 60px rgba(0, 0, 0, .55);
 }
+/* 灯箱舞台：热区容器与图片渲染区域严格重合，百分比定位随缩放自适应 */
+.cat-lb-stage {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  line-height: 0;
+}
+.cat-lb-prev, .cat-lb-next { z-index: 5; }
+.cat-lb-stage .cat-lb-img { display: block; }
+/* 二维码透明热区：覆盖在图片对应位置，点击新标签打开 */
+.cat-lb-hot {
+  position: absolute;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 6px;
+  outline-offset: 2px;
+}
+.cat-lb-hot:hover, .cat-lb-hot:focus-visible {
+  background: rgba(188, 148, 100, .28);
+  box-shadow: 0 0 0 2px rgba(188, 148, 100, .9) inset;
+}
+/* 本页二维码备用入口列表（位于 3D 按钮上方，避免重叠） */
+.cat-lb-qr {
+  position: absolute;
+  bottom: 84px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 92vw;
+}
+.cat-lb-qr a {
+  color: rgba(255, 255, 255, .88);
+  text-decoration: none;
+  font-size: 12.5px;
+  letter-spacing: .08em;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: border-color .3s ease, color .3s ease;
+}
+.cat-lb-qr a:hover { border-color: #BC9464; color: #E8C9A4; }
 .cat-lb-label {
   position: absolute;
   top: 22px;
