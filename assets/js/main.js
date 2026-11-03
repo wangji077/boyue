@@ -269,6 +269,18 @@
         a.textContent = a.dataset.text || window.SITE.email;
       }
     });
+    // TikTok / X（Twitter）：填了链接才显示，未配置则隐藏避免死链
+    [['tiktok', '.js-tiktok'], ['x', '.js-x']].forEach(function (pair) {
+      var url = window.SITE[pair[0]];
+      document.querySelectorAll(pair[1]).forEach(function (a) {
+        if (url) {
+          a.href = url;
+          a.setAttribute('title', url.replace(/^https?:\/\/(www\.)?/, ''));
+        } else {
+          a.style.display = 'none';
+        }
+      });
+    });
   }
 
   /* ---------------------- 7. 页脚年份 ---------------------- */

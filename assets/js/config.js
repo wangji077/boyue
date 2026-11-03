@@ -14,6 +14,12 @@ window.SITE = {
   /* WhatsApp 直聊（含国家码，+86 前缀不能少） */
   whatsapp: "https://wa.me/8613826418588",
 
+  /* TikTok 企业号主页 */
+  tiktok: "https://www.tiktok.com/@boyuedecoration",
+
+  /* X（Twitter）企业号主页 */
+  x: "https://x.com/Stevechanyanlin",
+
   /* 商务邮箱 */
   email: "Steve.chan.Yanlin@gmail.com"
 };
