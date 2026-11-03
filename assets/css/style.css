@@ -2558,3 +2558,57 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   line-height: 1.8;
 }
 .cat-album .cat-gtitle { margin-top: 26px; }
+
+/* ---------- 37. 首页服务项目（空间规划 / 艺术设计 / 全案交付） ---------- */
+.service { padding-top: clamp(48px, 7vw, 100px); }
+.service-title {
+  font-size: clamp(24px, 2.6vw, 34px);
+  letter-spacing: .1em;
+  color: var(--c-ink);
+  margin: 0 0 clamp(28px, 4vw, 52px);
+  font-weight: 500;
+}
+.service-title span {
+  color: var(--c-muted);
+  font-size: .62em;
+  letter-spacing: .22em;
+  font-weight: 400;
+  margin-left: 10px;
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2.4vw, 30px);
+}
+.service-item { margin: 0; }
+.service-img {
+  overflow: hidden;
+  border-radius: 8px;
+  aspect-ratio: 4 / 3;
+  background: var(--c-paper-alt);
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .28);
+}
+.service-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .6s var(--ease, ease);
+}
+.service-item:hover .service-img img { transform: scale(1.05); }
+.service-item figcaption {
+  text-align: center;
+  margin-top: 14px;
+  color: var(--c-ink);
+  font-size: 15.5px;
+  letter-spacing: .1em;
+}
+.service-item figcaption span {
+  color: var(--c-muted);
+  font-size: 12.5px;
+  letter-spacing: .18em;
+  margin-left: 8px;
+}
+@media (max-width: 720px) {
+  .service-grid { grid-template-columns: 1fr; gap: 24px; }
+}
