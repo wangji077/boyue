@@ -2045,8 +2045,9 @@ body.page-home .site-header .lang-switch { opacity: 1; pointer-events: auto; }
   transform: none;
   transition: none;
 }
-/* 前层：海报完整居中显示，按钮不被裁切 */
-.hero-media .slide .poster-main {
+/* 前层：海报完整居中显示，按钮不被裁切（poster-main=竖版/手机端，poster-pc=横版/PC端） */
+.hero-media .slide .poster-main,
+.hero-media .slide .poster-pc {
   position: absolute;
   inset: 0;
   margin: 0 auto;
@@ -2234,4 +2235,15 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   /* 轮播圆点贴近海报底部，避免压住海报按钮 */
   .hero-dots { bottom: 10px; }
   .hero-dots button { width: 22px; }
+}
+
+/* ---------- 33. 首屏 PC / 手机端海报区分 ---------- */
+/* PC（>720px）：横版海报（1672:941 ≈ 16:9），contain 完整显示，
+   极端屏幕比例的留白由 poster-bg 模糊图填充；竖版海报隐藏 */
+@media (min-width: 721px) {
+  .hero-media .slide .poster-main { display: none; }
+}
+/* 手机（≤720px）：竖版海报整张完整显示，横版隐藏 */
+@media (max-width: 720px) {
+  .hero-media .slide .poster-pc { display: none; }
 }
