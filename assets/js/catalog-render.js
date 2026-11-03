@@ -1,6 +1,10 @@
-/* 在线图册通用渲染：品牌导航条 + 分组卡片 + 灯箱 + 3D 实景 + 品类按钮跳转
+/* 在线图册通用渲染：纹理/品牌导航条 + 分组卡片 + 灯箱 + 3D 实景 + 品类按钮跳转
  * 依赖：catalog-data.js（window.CATALOG）、页面声明 window.CATALOG_SCOPE
  * 容器：#catalog-root；灯箱：#catLightbox
+ * pages 兼容两种写法：
+ *   数字 n           → assets/img/catalog/{album.dir}/cat-NNx.jpg（doors 整册）
+ *   "目录/页码" 字符串 → assets/img/catalog/{目录}/cat-NNx.jpg（materials 纹理分组）
+ * 单专辑且带 groups 时，顶部导航显示纹理分组；否则显示各专辑。
  */
 (function () {
   var en = window.LANG === 'en';
@@ -12,25 +16,41 @@
 
   var flat = [];
   var pad = function (n) { return ('0' + n).slice(-2); };
-  var imgBase = function (al, n, suffix) {
-    return 'assets/img/catalog/' + al.dir + '/cat-' + pad(n) + suffix + '.jpg';
+  /* 解析页引用：返回 { dir, n } */
+  var pageRef = function (al, p) {
+    if (typeof p === 'string') {
+      var k = p.split('/');
+      return { dir: k[0], n: parseInt(k[1], 10) };
+    }
+    return { dir: al.dir, n: p };
+  };
+  var imgBase = function (ref, suffix) {
+    return 'assets/img/catalog/' + ref.dir + '/cat-' + pad(ref.n) + suffix + '.jpg';
+  };
+  var vrOf = function (al, p) {
+    return (al.pagesVr && al.pagesVr[String(p)]) || [];
   };
 
-  /* ---- 顶部品牌导航条（粘性） ---- */
+  /* 单专辑（materials）：chips 用纹理分组；多专辑（doors）：chips 用专辑 */
+  var single = albums.length === 1 && albums[0].groups;
   var chips = document.createElement('nav');
   chips.className = 'cat-chips';
   chips.setAttribute('aria-label', en ? 'Catalog sections' : '图册导航');
-  albums.forEach(function (al) {
+  var chipItems = single
+    ? albums[0].groups.map(function (g) { return { id: 'g-' + g.id, text: en ? g.en : g.zh }; })
+    : albums.map(function (al) { return { id: 'al-' + al.id, text: en ? al.en : al.zh }; });
+  chipItems.forEach(function (it) {
+    if (!it.id) return;
     var b = document.createElement('a');
     b.className = 'cat-chip';
-    b.href = '#al-' + al.id;
-    b.setAttribute('data-target', 'al-' + al.id);
-    b.textContent = en ? al.en : al.zh;
+    b.href = '#' + it.id;
+    b.setAttribute('data-target', it.id);
+    b.textContent = it.text;
     chips.appendChild(b);
   });
   root.appendChild(chips);
 
-  /* ---- 各品牌图册 ---- */
+  /* ---- 专辑与分组 ---- */
   albums.forEach(function (al) {
     var sec = document.createElement('section');
     sec.className = 'cat-album';
@@ -75,19 +95,22 @@
       }
       var grid = document.createElement('div');
       grid.className = 'cat-grid';
-      g.pages.forEach(function (p) {
-        var vr = (al.pagesVr && al.pagesVr[p]) || [];
+      var gname = en ? g.en : g.zh;
+      g.pages.forEach(function (p, gi) {
+        var ref = pageRef(al, p);
+        var vr = vrOf(al, p);
+        var no = pad(gi + 1);
+        var label = gname ? gname + ' · ' + no : 'P' + ref.n;
         var idx = flat.length;
-        flat.push({ al: al, p: p, vr: vr, g: g });
+        flat.push({ ref: ref, vr: vr, label: label });
         var card = document.createElement('button');
         card.type = 'button';
         card.className = 'cat-card';
-        var gname = en ? g.en : g.zh;
-        var label = gname ? 'P' + p + ' · ' + gname : 'P' + p;
-        card.setAttribute('aria-label', (en ? al.en : al.zh) + ' ' + label);
+        var thumbH = single ? 360 : 676;
+        card.setAttribute('aria-label', label);
         card.innerHTML =
           '<span class="cat-thumb-wrap">' +
-            '<img src="' + imgBase(al, p, 't') + '" alt="' + (en ? al.en : al.zh) + ' P' + p + '" width="480" height="676" loading="lazy">' +
+            '<img src="' + imgBase(ref, 't') + '" alt="' + label + '" width="480" height="' + thumbH + '" loading="lazy">' +
             (vr.length ? '<span class="cat-vr-badge">3D ×' + vr.length + '</span>' : '') +
           '</span>' +
           '<span class="cat-plabel">' + label + '</span>';
@@ -99,7 +122,7 @@
     root.appendChild(sec);
   });
 
-  /* ---- 品牌导航：点击平滑滚动 + 滚动高亮 ---- */
+  /* ---- 导航条：点击平滑滚动 + 滚动高亮 ---- */
   var chipLinks = Array.prototype.slice.call(chips.querySelectorAll('.cat-chip'));
   chipLinks.forEach(function (a) {
     a.addEventListener('click', function (e) {
@@ -119,8 +142,9 @@
         });
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    albums.forEach(function (al) {
-      var el = document.getElementById('al-' + al.id);
+    chipItems.forEach(function (it) {
+      if (!it.id) return;
+      var el = document.getElementById(it.id);
       if (el) spy.observe(el);
     });
   }
@@ -134,9 +158,9 @@
 
   function render() {
     var it = flat[cur];
-    lbImg.src = imgBase(it.al, it.p, 'f');
-    lbImg.alt = (en ? it.al.en : it.al.zh) + ' P' + it.p;
-    lbLabel.textContent = (en ? it.al.en : it.al.zh) + ' · P' + it.p;
+    lbImg.src = imgBase(it.ref, 'f');
+    lbImg.alt = it.label || '';
+    lbLabel.textContent = it.label || '';
     lbVr.innerHTML = '';
     if (it.vr.length) {
       it.vr.forEach(function (u, k) {
@@ -154,7 +178,7 @@
     [cur + 1, cur - 1].forEach(function (n) {
       if (n >= 0 && n < flat.length) {
         var im = new Image();
-        im.src = imgBase(flat[n].al, flat[n].p, 'f');
+        im.src = imgBase(flat[n].ref, 'f');
       }
     });
   }
