@@ -2,7 +2,7 @@
  * 图片路径：assets/img/catalog/{dir}/cat-{NN}t.jpg（缩略）/ cat-{NN}f.jpg（大图）
  * materials：单专辑六大纹理分组，pages 用 "目录/页码" 复合键；
  *            pagesVr 键为 "目录/页码"（3D 实铺效果链接）
- * doors：沿用整册结构（count 页，1..count 顺序展示）
+ * doors：单专辑三大品类分组（门 / 窗 / 浴室隔断），pages 用 "目录/页码" 复合键
  * window.CATALOG_SCOPE 决定页面取用哪一组（materials=硬装 / doors=博粤甄选）
  */
 window.CATALOG = {
@@ -67,9 +67,35 @@ window.CATALOG = {
     }
   ],
   doors: [
-    { id: 'mingshi',  zh: '铭师门窗', en: 'Mingshi Doors & Windows', dir: 'mingshi', count: 59 },
-    { id: 'yomu',     zh: '优沐 YOMU 淋浴系统', en: 'YOMU Shower Systems', dir: 'yomu', count: 44 },
-    { id: 'shower',   zh: '高端淋浴房', en: 'Premium Shower Enclosures', dir: 'shower', count: 27 },
-    { id: 'shower23', zh: '2023 淋浴精选册', en: '2023 Shower Brochure', dir: 'shower23', count: 7 }
+    {
+      id: 'dw', zh: '门窗与浴室隔断', en: 'Doors, Windows & Bath Screens', dir: 'mingshi',
+      note: {
+        zh: '门 / 窗 / 浴室隔断 三大品类，相似系列归组陈列',
+        en: 'Three families — Doors, Windows, Bathroom Screens — similar series grouped together'
+      },
+      groups: [
+        { id: 'door', zh: '门', en: 'Doors', pages: [
+          'mingshi/13', 'mingshi/14', 'mingshi/15', 'mingshi/16', 'mingshi/17', 'mingshi/18', 'mingshi/19', 'mingshi/20', 'mingshi/21', 'mingshi/22',
+          'mingshi/23', 'mingshi/24', 'mingshi/25', 'mingshi/26', 'mingshi/27', 'mingshi/28', 'mingshi/29', 'mingshi/30', 'mingshi/31', 'mingshi/32',
+          'mingshi/33', 'mingshi/34', 'mingshi/35', 'mingshi/36', 'mingshi/37', 'mingshi/38', 'mingshi/39', 'mingshi/40', 'mingshi/41', 'mingshi/42',
+          'mingshi/43', 'mingshi/44', 'mingshi/45', 'mingshi/46', 'mingshi/47', 'mingshi/48', 'mingshi/49', 'mingshi/50', 'mingshi/51', 'mingshi/52',
+          'mingshi/53', 'mingshi/54', 'mingshi/55', 'mingshi/56', 'mingshi/57', 'mingshi/58'
+        ] },
+        { id: 'window', zh: '窗', en: 'Windows', pages: [
+          'mingshi/2', 'mingshi/3', 'mingshi/4', 'mingshi/5', 'mingshi/6', 'mingshi/7', 'mingshi/8', 'mingshi/9', 'mingshi/10', 'mingshi/11',
+          'mingshi/12'
+        ] },
+        { id: 'bath', zh: '浴室隔断', en: 'Bathroom Screens', pages: [
+          'yomu/1', 'yomu/2', 'yomu/3', 'yomu/4', 'yomu/5', 'yomu/6', 'yomu/7', 'yomu/8', 'yomu/9', 'yomu/10',
+          'yomu/11', 'yomu/12', 'yomu/13', 'yomu/14', 'yomu/15', 'yomu/16', 'yomu/17', 'yomu/18', 'yomu/19', 'yomu/20',
+          'yomu/21', 'yomu/22', 'yomu/23', 'yomu/24', 'yomu/25', 'yomu/26', 'yomu/27', 'yomu/28', 'yomu/29', 'yomu/30',
+          'yomu/31', 'yomu/32', 'yomu/33', 'yomu/34', 'yomu/35', 'yomu/36', 'yomu/37', 'yomu/38', 'yomu/39', 'yomu/40',
+          'yomu/41', 'yomu/42', 'yomu/43', 'yomu/44', 'shower/1', 'shower/2', 'shower/3', 'shower/4', 'shower/5', 'shower/6',
+          'shower/7', 'shower/8', 'shower/9', 'shower/10', 'shower/11', 'shower/12', 'shower/13', 'shower/14', 'shower/15', 'shower/16',
+          'shower/17', 'shower/18', 'shower/19', 'shower/20', 'shower/21', 'shower/22', 'shower/23', 'shower/24', 'shower/25', 'shower/26',
+          'shower/27', 'shower23/1', 'shower23/2', 'shower23/3', 'shower23/4', 'shower23/5', 'shower23/6', 'shower23/7'
+        ] }
+      ]
+    }
   ]
 };
