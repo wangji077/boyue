@@ -265,7 +265,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .nav-links {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 2.6vw, 44px);
+  gap: clamp(26px, 3.2vw, 54px);
 }
 .nav-links a {
   font-size: 13px;
@@ -2226,9 +2226,9 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
 }
 .nav-links .fl-alt {
   position: absolute;
-  left: 0;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%) translateY(7px);
+  transform: translateX(-50%) translateY(-50%) translateY(7px);
   opacity: 0;
   white-space: nowrap;
   transition: opacity .3s ease, transform .3s ease;
@@ -2237,7 +2237,7 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
 .nav-links a:hover .fl-main,
 .nav-links a:focus-visible .fl-main { opacity: 0; transform: translateY(-7px); }
 .nav-links a:hover .fl-alt,
-.nav-links a:focus-visible .fl-alt { opacity: 1; transform: translateY(-50%); }
+.nav-links a:focus-visible .fl-alt { opacity: 1; transform: translateX(-50%) translateY(-50%); }
 
 /* 首页右侧竖排菜单的互换 */
 .hero-side > a { position: relative; }
