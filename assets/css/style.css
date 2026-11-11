@@ -2414,6 +2414,10 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   display: inline-flex;
   max-width: 100%;
   line-height: 0;
+  touch-action: pan-y; /* 横向滑动交给 JS 手势处理，纵向仍走浏览器 */
+  -webkit-user-select: none;
+  user-select: none;
+}
 }
 .cat-lb-prev, .cat-lb-next { z-index: 5; }
 .cat-lb-stage .cat-lb-img { display: block; }

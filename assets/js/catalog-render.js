@@ -246,6 +246,25 @@
     else if (e.key === 'ArrowRight') catStep(1);
   });
 
+  /* ---- 触屏滑动翻页（手机端左右滑动切换上一张/下一张）----
+   * 阈值 50px 且横向位移明显大于纵向，避免与点击、上下滚动冲突；
+   * 起手点若落在二维码热区上同样生效——移动超过浏览器点击判定距离后不会触发误点 */
+  var swX = 0, swY = 0;
+  lb.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { swX = 0; return; }
+    swX = e.touches[0].clientX;
+    swY = e.touches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (!swX) return;
+    var dx = e.changedTouches[0].clientX - swX;
+    var dy = e.changedTouches[0].clientY - swY;
+    swX = 0;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      catStep(dx < 0 ? 1 : -1);
+    }
+  }, { passive: true });
+
   /* ---- 品类按钮：JS 平滑滚动兜底 ---- */
   document.querySelectorAll('.campaign-module-link[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
