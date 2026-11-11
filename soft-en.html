@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Soft Furnishings · BOYUE Home | 博粤美装智造 BOYUE</title>
-<meta name="description" content="Hard finishes build the frame; soft furnishings give it a soul. BOYUE Home curates furniture, fabrics and lighting as one coordinated package, from style direction to final styling.">
+<title>Custom Cabinets & Soft Furnishings · BOYUE Home | 博粤美装智造 BOYUE</title>
+<meta name="description" content="BOYUE Home centers on whole-house custom cabinets — 16 families, 278 designs: wardrobes, kitchens, walk-in closets and more — with fabrics and lighting as one coordinated package.">
 <link rel="canonical" href="https://boyum.vip/soft-en.html">
 <link rel="alternate" hreflang="en" href="https://boyum.vip/soft-en.html">
 <link rel="alternate" hreflang="zh" href="https://boyum.vip/soft.html">
@@ -53,10 +53,10 @@
   <section class="page-hero page-hero--plain">
     <div class="wrap">
       <nav class="crumb" aria-label="breadcrumb" style="color:var(--c-muted)">
-        <a href="index-en.html"><span class="fl-main">Home</span><span class="fl-alt">首页</span></a><span aria-hidden="true">/</span><span>Soft Furnishings · BOYUE Home</span>
+        <a href="index-en.html"><span class="fl-main">Home</span><span class="fl-alt">首页</span></a><span aria-hidden="true">/</span><span>Custom Cabinets · BOYUE Home</span>
       </nav>
-      <span class="eyebrow">BOYUE Home · Soft Furnishings</span>
-      <h1>Soft Furnishings · BOYUE Home</h1>
+      <span class="eyebrow">BOYUE Home · Custom Cabinets & Soft Furnishings</span>
+      <h1>Custom Cabinets & Soft Furnishings · BOYUE Home</h1>
     </div>
   </section>
 
@@ -67,11 +67,14 @@
           <img src="assets/img/hero-c2.jpg" alt="Soft Furnishings · BOYUE Home 海报" width="941" height="1672">
         </div>
         <div class="campaign-body reveal" data-delay="1">
-          <p class="campaign-intro">Hard finishes build the frame; soft furnishings give it a soul. BOYUE Home curates furniture, fabrics and lighting as one coordinated package, from style direction to final styling.</p>
+          <p class="campaign-intro">Hard finishes build the frame; cabinets define the space. BOYUE Home centers on whole-house custom cabinets — 16 families crafted in our Foshan factory — with fabrics and lighting as one coordinated package, from design to installation.</p>
           <ul class="campaign-list">
         <li class="campaign-module">
-          <span class="num">01</span>
-          <div><h3>Furniture</h3><p>Sofas, dining sets and accent pieces</p></div>
+          <a class="campaign-module-link" href="#cabinet-catalog">
+            <span class="num">01</span>
+            <div class="campaign-module-text"><h3>Custom Cabinets</h3><p>16 families, 278 designs — wardrobes, kitchens, closets, tatami and more</p></div>
+            <span class="campaign-module-arrow" aria-hidden="true">→</span>
+          </a>
         </li>
         <li class="campaign-module">
           <span class="num">02</span>
@@ -82,12 +85,43 @@
           <div><h3>Lighting & Decor</h3><p>Lights, art and final styling</p></div>
         </li>
           </ul>
-          <p class="campaign-note">This page is under construction — the full catalogue is coming soon. Meanwhile, feel free to reach out directly.</p>
-          <a class="btn btn--solid" href="contact-en.html"><span>Enquire Now</span><span aria-hidden="true">→</span></a>
+          <p class="campaign-note">Cabinet gallery is now live — 16 families, 278 designs. Click "Custom Cabinets" above or browse the gallery below. Fabric and lighting collections are being prepared; feel free to reach out directly.</p>
+          <div class="campaign-cta-row">
+            <a class="btn btn--solid" href="#cabinet-catalog"><span>Browse Cabinet Gallery</span><span aria-hidden="true">↓</span></a>
+            <a class="btn btn--ghost" href="contact-en.html"><span>Enquire Now</span><span aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <section class="sec catalog-sec" id="cabinet-catalog" style="padding-top:0">
+    <div class="wrap">
+      <div class="catalog-head reveal">
+        <span class="eyebrow">Custom Cabinets · 全屋定制柜</span>
+        <h2>Cabinet Design Gallery <em>16 Families · 278 Designs</em></h2>
+        <p>Wardrobes, wine cabinets, shoe cabinets, kitchens, walk-in closets, tatami rooms and more — grouped by family. Click any design to inspect finishes and layouts up close.</p>
+      </div>
+      <div id="catalog-root"><!-- rendered by catalog-render.js --></div>
+      <div class="catalog-cta reveal">
+        <a class="btn btn--solid js-wa-cab" href="https://wa.me/8613826418588" target="_blank" rel="noopener"><span>Enquire Cabinets & Quotation</span><span aria-hidden="true">→</span></a>
+        <a class="btn btn--ghost" href="contact-en.html"><span>Visit Our Showroom</span><span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="cat-lightbox" id="catLightbox" hidden role="dialog" aria-modal="true" aria-label="Catalog viewer">
+    <span class="cat-lb-label"></span>
+    <button class="cat-lb-close" type="button" aria-label="Close">×</button>
+    <button class="cat-lb-prev" type="button" aria-label="Previous page">‹</button>
+    <div class="cat-lb-stage">
+      <img class="cat-lb-img" src="" alt="">
+      <div class="cat-lb-hots" aria-label="QR hotspots"></div>
+    </div>
+    <button class="cat-lb-next" type="button" aria-label="Next page">›</button>
+    <div class="cat-lb-vr"></div>
+    <div class="cat-lb-qr"></div>
+  </div>
 
 </main>
 
@@ -136,7 +170,11 @@
   </a>
 </div>
 
+<script>window.LANG = 'en';</script>
+<script>window.CATALOG_SCOPE = 'cabinets';</script>
 <script src="assets/js/config.js"></script>
+<script src="assets/js/catalog-data.js"></script>
+<script src="assets/js/catalog-render.js" defer></script>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>

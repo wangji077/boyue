@@ -66,6 +66,33 @@ window.CATALOG = {
       }
     }
   ],
+cabinets: [
+    {
+      id: 'cabinet', zh: '全屋定制柜', en: 'Whole-House Custom Cabinets', dir: 'yigui',
+      note: {
+        zh: '衣柜 / 橱柜 / 衣帽间 等 16 大柜类，方案图按柜类归组陈列',
+        en: '16 cabinet families — wardrobes, kitchens, closets and more, grouped by type'
+      },
+      groups: [
+        { id: 'yigui', zh: '衣柜', en: 'Wardrobe', pages: ['yigui/1', 'yigui/2', 'yigui/3', 'yigui/4', 'yigui/5', 'yigui/6', 'yigui/7', 'yigui/8', 'yigui/9', 'yigui/10', 'yigui/11', 'yigui/12', 'yigui/13', 'yigui/14'] },
+        { id: 'jiugui', zh: '酒柜', en: 'Wine Cabinet', pages: ['jiugui/1', 'jiugui/2', 'jiugui/3', 'jiugui/4', 'jiugui/5', 'jiugui/6', 'jiugui/7', 'jiugui/8', 'jiugui/9', 'jiugui/10', 'jiugui/11', 'jiugui/12', 'jiugui/13', 'jiugui/14'] },
+        { id: 'xiegui', zh: '鞋柜', en: 'Shoe Cabinet', pages: ['xiegui/1', 'xiegui/2', 'xiegui/3', 'xiegui/4', 'xiegui/5', 'xiegui/6', 'xiegui/7', 'xiegui/8', 'xiegui/9', 'xiegui/10', 'xiegui/11', 'xiegui/12', 'xiegui/13', 'xiegui/14'] },
+        { id: 'chugui', zh: '橱柜', en: 'Kitchen Cabinet', pages: ['chugui/1', 'chugui/2', 'chugui/3', 'chugui/4', 'chugui/5', 'chugui/6', 'chugui/7', 'chugui/8', 'chugui/9', 'chugui/10', 'chugui/11', 'chugui/12', 'chugui/13', 'chugui/14'] },
+        { id: 'yushigui', zh: '浴室柜', en: 'Bathroom Vanity', pages: ['yushigui/1', 'yushigui/2', 'yushigui/3', 'yushigui/4', 'yushigui/5', 'yushigui/6', 'yushigui/7', 'yushigui/8', 'yushigui/9', 'yushigui/10', 'yushigui/11', 'yushigui/12', 'yushigui/13', 'yushigui/14'] },
+        { id: 'yimaojian', zh: '衣帽间', en: 'Walk-in Closet', pages: ['yimaojian/1', 'yimaojian/2', 'yimaojian/3', 'yimaojian/4', 'yimaojian/5', 'yimaojian/6', 'yimaojian/7', 'yimaojian/8', 'yimaojian/9', 'yimaojian/10', 'yimaojian/11', 'yimaojian/12', 'yimaojian/13', 'yimaojian/14'] },
+        { id: 'dianshigui', zh: '电视柜', en: 'TV Unit', pages: ['dianshigui/1', 'dianshigui/2', 'dianshigui/3', 'dianshigui/4', 'dianshigui/5', 'dianshigui/6', 'dianshigui/7', 'dianshigui/8', 'dianshigui/9', 'dianshigui/10', 'dianshigui/11', 'dianshigui/12', 'dianshigui/13', 'dianshigui/14'] },
+        { id: 'shugui', zh: '书柜', en: 'Bookcase', pages: ['shugui/1', 'shugui/2', 'shugui/3', 'shugui/4', 'shugui/5', 'shugui/6', 'shugui/7', 'shugui/8', 'shugui/9', 'shugui/10', 'shugui/11', 'shugui/12', 'shugui/13', 'shugui/14'] },
+        { id: 'biangui', zh: '边柜', en: 'Side Cabinet', pages: ['biangui/1', 'biangui/2', 'biangui/3', 'biangui/4', 'biangui/5', 'biangui/6', 'biangui/7', 'biangui/8', 'biangui/9', 'biangui/10', 'biangui/11', 'biangui/12', 'biangui/13', 'biangui/14', 'biangui/15', 'biangui/16', 'biangui/17', 'biangui/18', 'biangui/19', 'biangui/20', 'biangui/21'] },
+        { id: 'tatami', zh: '榻榻米', en: 'Tatami Room', pages: ['tatami/1', 'tatami/2', 'tatami/3', 'tatami/4', 'tatami/5', 'tatami/6', 'tatami/7', 'tatami/8', 'tatami/9', 'tatami/10', 'tatami/11', 'tatami/12', 'tatami/13', 'tatami/14', 'tatami/15', 'tatami/16', 'tatami/17', 'tatami/18', 'tatami/19', 'tatami/20', 'tatami/21'] },
+        { id: 'xuanguangui', zh: '玄关柜', en: 'Entry Cabinet', pages: ['xuanguangui/1', 'xuanguangui/2', 'xuanguangui/3', 'xuanguangui/4', 'xuanguangui/5', 'xuanguangui/6', 'xuanguangui/7', 'xuanguangui/8', 'xuanguangui/9', 'xuanguangui/10', 'xuanguangui/11', 'xuanguangui/12', 'xuanguangui/13', 'xuanguangui/14', 'xuanguangui/15', 'xuanguangui/16', 'xuanguangui/17', 'xuanguangui/18', 'xuanguangui/19', 'xuanguangui/20'] },
+        { id: 'yangtaigui', zh: '阳台柜', en: 'Balcony Cabinet', pages: ['yangtaigui/1', 'yangtaigui/2', 'yangtaigui/3', 'yangtaigui/4', 'yangtaigui/5', 'yangtaigui/6', 'yangtaigui/7', 'yangtaigui/8', 'yangtaigui/9', 'yangtaigui/10', 'yangtaigui/11', 'yangtaigui/12', 'yangtaigui/13', 'yangtaigui/14', 'yangtaigui/15', 'yangtaigui/16', 'yangtaigui/17', 'yangtaigui/18', 'yangtaigui/19', 'yangtaigui/20'] },
+        { id: 'canbiangui', zh: '餐边柜', en: 'Sideboard', pages: ['canbiangui/1', 'canbiangui/2', 'canbiangui/3', 'canbiangui/4', 'canbiangui/5', 'canbiangui/6', 'canbiangui/7', 'canbiangui/8', 'canbiangui/9', 'canbiangui/10', 'canbiangui/11', 'canbiangui/12', 'canbiangui/13', 'canbiangui/14', 'canbiangui/15', 'canbiangui/16', 'canbiangui/17', 'canbiangui/18', 'canbiangui/19', 'canbiangui/20', 'canbiangui/21'] },
+        { id: 'chuantougui', zh: '床头柜', en: 'Nightstand', pages: ['chuantougui/1', 'chuantougui/2', 'chuantougui/3', 'chuantougui/4', 'chuantougui/5', 'chuantougui/6', 'chuantougui/7', 'chuantougui/8', 'chuantougui/9', 'chuantougui/10', 'chuantougui/11', 'chuantougui/12', 'chuantougui/13', 'chuantougui/14', 'chuantougui/15', 'chuantougui/16', 'chuantougui/17', 'chuantougui/18', 'chuantougui/19', 'chuantougui/20', 'chuantougui/21'] },
+        { id: 'xiyigui', zh: '洗衣柜', en: 'Laundry Cabinet', pages: ['xiyigui/1', 'xiyigui/2', 'xiyigui/3', 'xiyigui/4', 'xiyigui/5', 'xiyigui/6', 'xiyigui/7', 'xiyigui/8', 'xiyigui/9', 'xiyigui/10', 'xiyigui/11', 'xiyigui/12', 'xiyigui/13', 'xiyigui/14', 'xiyigui/15', 'xiyigui/16', 'xiyigui/17', 'xiyigui/18', 'xiyigui/19', 'xiyigui/20', 'xiyigui/21'] },
+        { id: 'bataigui', zh: '吧台柜', en: 'Bar Cabinet', pages: ['bataigui/1', 'bataigui/2', 'bataigui/3', 'bataigui/4', 'bataigui/5', 'bataigui/6', 'bataigui/7', 'bataigui/8', 'bataigui/9', 'bataigui/10', 'bataigui/11', 'bataigui/12', 'bataigui/13', 'bataigui/14', 'bataigui/15', 'bataigui/16', 'bataigui/17', 'bataigui/18', 'bataigui/19', 'bataigui/20', 'bataigui/21'] }
+      ]
+    }
+  ],
   doors: [
     {
       id: 'dw', zh: '门窗与浴室隔断', en: 'Doors, Windows & Bath Screens', dir: 'mingshi',

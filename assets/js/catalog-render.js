@@ -266,4 +266,11 @@
       : '您好，我想索取博粤完整版选材手册（PDF）。';
     pdfBtn.href = 'https://wa.me/8613826418588?text=' + encodeURIComponent(msg);
   }
+  var cabBtn = document.querySelector('.js-wa-cab');
+  if (cabBtn) {
+    var cabMsg = en
+      ? 'Hello BOYUE, I would like to enquire about whole-house custom cabinets (design & quotation).'
+      : '您好，我想咨询全屋定制柜方案与报价。';
+    cabBtn.href = 'https://wa.me/8613826418588?text=' + encodeURIComponent(cabMsg);
+  }
 })();
