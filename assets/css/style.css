@@ -2127,6 +2127,14 @@ body.page-home .site-header .lang-switch { opacity: 1; pointer-events: auto; }
   background: rgba(188, 148, 100, .1);
 }
 .campaign-module-text { display: block; flex: 1; min-width: 0; }
+/* 未链接模块与链接模块同布局对齐（编号+文本同列） */
+.campaign-module-row {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+  padding: 20px 14px 20px 12px;
+  margin: 0 -14px 0 -12px;
+}
 .campaign-module-arrow {
   margin-left: auto;
   flex-shrink: 0;
