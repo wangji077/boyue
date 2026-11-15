@@ -91,6 +91,16 @@ cabinets: [
         { id: 'xiyigui', zh: '洗衣柜', en: 'Laundry Cabinet', pages: ['xiyigui/1', 'xiyigui/2', 'xiyigui/3', 'xiyigui/4', 'xiyigui/5', 'xiyigui/6', 'xiyigui/7', 'xiyigui/8', 'xiyigui/9', 'xiyigui/10', 'xiyigui/11', 'xiyigui/12', 'xiyigui/13', 'xiyigui/14', 'xiyigui/15', 'xiyigui/16', 'xiyigui/17', 'xiyigui/18', 'xiyigui/19', 'xiyigui/20', 'xiyigui/21'] },
         { id: 'bataigui', zh: '吧台柜', en: 'Bar Cabinet', pages: ['bataigui/1', 'bataigui/2', 'bataigui/3', 'bataigui/4', 'bataigui/5', 'bataigui/6', 'bataigui/7', 'bataigui/8', 'bataigui/9', 'bataigui/10', 'bataigui/11', 'bataigui/12', 'bataigui/13', 'bataigui/14', 'bataigui/15', 'bataigui/16', 'bataigui/17', 'bataigui/18', 'bataigui/19', 'bataigui/20', 'bataigui/21'] }
       ]
+    },
+    {
+      id: 'fabric', zh: '布艺窗帘', en: 'Fabrics & Curtains', dir: 'curtain',
+      note: {
+        zh: '窗帘与布艺方案图，实景布光呈现真实挂帘效果',
+        en: 'Curtain & fabric designs rendered in realistic lighting'
+      },
+      groups: [
+        { id: 'curtain', zh: '布艺窗帘', en: 'Curtains & Fabric', pages: ['curtain/1', 'curtain/2', 'curtain/3', 'curtain/4', 'curtain/5', 'curtain/6', 'curtain/7', 'curtain/8', 'curtain/9', 'curtain/10'] }
+      ]
     }
   ],
   doors: [
