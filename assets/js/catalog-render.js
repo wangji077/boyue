@@ -126,6 +126,11 @@
       }
       var grid = document.createElement('div');
       grid.className = 'cat-grid';
+      /* 屏外网格跳过渲染时用估算高度占位：按当前宽度算列数，避免滚动时页面高度突变 */
+      var wrapW = root.clientWidth || 1200;
+      var cols = Math.max(2, Math.min(6, Math.floor(wrapW / 220)));
+      var cardH = Math.round(wrapW / cols * 1.42) + 36;
+      grid.style.containIntrinsicSize = 'auto ' + (Math.ceil(g.pages.length / cols) * cardH) + 'px';
       var gname = en ? g.en : g.zh;
       g.pages.forEach(function (p, gi) {
         var ref = pageRef(al, p);
@@ -139,9 +144,11 @@
         card.className = 'cat-card';
         var thumbH = single ? 360 : 676;
         card.setAttribute('aria-label', label);
+        var thumbJpg = imgBase(ref, 't');
+        var thumbWebp = thumbJpg.replace(/\.jpg$/, '.webp');
         card.innerHTML =
           '<span class="cat-thumb-wrap">' +
-            '<img src="' + imgBase(ref, 't') + '" alt="' + label + '" width="480" height="' + thumbH + '" loading="lazy">' +
+            '<img src="' + thumbWebp + '" data-fb="' + thumbJpg + '" alt="' + label + '" width="480" height="' + thumbH + '" loading="lazy" decoding="async">' +
             (vr.length ? '<span class="cat-vr-badge">3D ×' + vr.length + '</span>' : '') +
           '</span>' +
           '<span class="cat-plabel">' + label + '</span>';
@@ -309,12 +316,20 @@
   });
 
   /* ---- 图册图片加载失败自动重试 ----
-   * GitHub Pages CDN 偶发瞬断会让缩略图留下破损占位；
-   * 失败后自动带时间戳参数重试（1s / 3.5s 两次），加载成功即复位计数 */
+   * 缩略图默认 WebP：老浏览器不支持时先回退同名 JPG（data-fb），
+   * 仍失败再认为是 CDN 瞬断，带时间戳参数重试（1s / 3.5s 两次） */
   document.addEventListener('error', function (e) {
     var img = e.target;
     if (!(img instanceof HTMLImageElement)) return;
     if (!img.closest('.cat-card') && !(img.classList && img.classList.contains('cat-lb-img'))) return;
+    /* 1) WebP → JPG 回退 */
+    var fb = img.getAttribute('data-fb');
+    if (fb) {
+      img.removeAttribute('data-fb');
+      img.src = fb;
+      return;
+    }
+    /* 2) 网络重试 */
     var n = parseInt(img.getAttribute('data-retry') || '0', 10);
     if (n >= 2) return;
     img.setAttribute('data-retry', String(n + 1));

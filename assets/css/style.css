@@ -2347,6 +2347,10 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
+  /* 长图册性能：屏外网格跳过布局与绘制，滚到附近才真正渲染
+     （高度由 JS 按卡片数估算，渲染后浏览器自动记忆实测高度） */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
 }
 .cat-card {
   background: transparent;
