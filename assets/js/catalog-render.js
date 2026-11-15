@@ -15,7 +15,7 @@
   if (!root || !albums) return;
 
   var flat = [];
-  var pad = function (n) { return ('0' + n).slice(-2); };
+  var pad = function (n) { return n > 99 ? String(n) : ('0' + n).slice(-2); };
   /* 解析页引用：返回 { dir, n } */
   var pageRef = function (al, p) {
     if (typeof p === 'string') {
