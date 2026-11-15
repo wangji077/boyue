@@ -84,6 +84,48 @@
   }
   root.appendChild(chips);
 
+  /* ---- 图片按需加载（自定义懒加载）----
+   * 原生 loading="lazy" 在超长图册页里会成批放行请求（实测首屏可发出 600+ 个请求，
+   * 源站每张 ~0.5s、并发 6，队列要跑几十秒）。这里改成：
+   *   1) 只给视口上下 400px 内的卡片真正赋 src，滚动到哪加载到哪；
+   *   2) 离屏超过 1600px 的图清空 src 释放解码内存，滚回来自动重新加载；
+   *   3) 两个阈值留出滞后区间，避免来回滚动时反复加载卸载。 */
+  var catLazy = (function () {
+    if (!('IntersectionObserver' in window)) {
+      return function (img) {
+        var s = img.getAttribute('data-src');
+        if (s) img.src = s;
+      };
+    }
+    var loadObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var img = en.target;
+        loadObs.unobserve(img);
+        var s = img.getAttribute('data-src');
+        if (s && !img.getAttribute('src')) img.src = s;
+      });
+    }, { rootMargin: '400px 0px' });
+
+    var freeObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var img = en.target;
+        if (en.isIntersecting) return;
+        var s = img.getAttribute('src');
+        if (!s) return;
+        img.setAttribute('data-src', s);
+        img.removeAttribute('src');   /* 释放已解码位图，降低内存占用 */
+        img.removeAttribute('data-fb');
+        loadObs.observe(img);         /* 滚回视口时重新加载 */
+      });
+    }, { rootMargin: '1600px 0px' });
+
+    return function (img) {
+      loadObs.observe(img);
+      freeObs.observe(img);
+    };
+  })();
+
   /* ---- 专辑与分组 ---- */
   albums.forEach(function (al) {
     var sec = document.createElement('section');
@@ -149,13 +191,16 @@
         card.setAttribute('aria-label', label);
         var thumbJpg = withVer(imgBase(ref, 't'));
         var thumbWebp = withVer(imgBase(ref, 't').replace(/\.jpg$/, '.webp'));
+        /* src 由 catLazy 在进入视口时按需赋值，这里只放 data-src */
         card.innerHTML =
           '<span class="cat-thumb-wrap">' +
-            '<img src="' + thumbWebp + '" data-fb="' + thumbJpg + '" alt="' + label + '" width="480" height="' + thumbH + '" loading="lazy" decoding="async">' +
+            '<img data-src="' + thumbWebp + '" data-fb="' + thumbJpg + '" alt="" width="480" height="' + thumbH + '" decoding="async">' +
             (vr.length ? '<span class="cat-vr-badge">3D ×' + vr.length + '</span>' : '') +
           '</span>' +
           '<span class="cat-plabel">' + label + '</span>';
         card.addEventListener('click', function () { catOpen(idx); });
+        var thumbEl = card.querySelector('img');
+        if (thumbEl) catLazy(thumbEl);
         grid.appendChild(card);
       });
       sec.appendChild(grid);
@@ -337,7 +382,7 @@
     if (n >= 2) return;
     img.setAttribute('data-retry', String(n + 1));
     setTimeout(function () {
-      var u = img.getAttribute('src') || '';
+      var u = img.getAttribute('src') || img.getAttribute('data-src') || '';
       var q = u.indexOf('?') >= 0 ? u.slice(u.indexOf('?') + 1) : '';
       var keep = q.split('&').filter(function (k) { return k && k.indexOf('r=') !== 0; });
       keep.push('r=' + Date.now());
