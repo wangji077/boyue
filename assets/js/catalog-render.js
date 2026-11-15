@@ -27,6 +27,9 @@
   var imgBase = function (ref, suffix) {
     return 'assets/img/catalog/' + ref.dir + '/cat-' + pad(ref.n) + suffix + '.jpg';
   };
+  /* 图片资源版本号：换图或修图后改这里，URL 变化即绕过浏览器与 CDN 旧缓存 */
+  var CAT_VER = 'v=3';
+  var withVer = function (u) { return u + (u.indexOf('?') < 0 ? '?' : '&') + CAT_VER; };
   var vrOf = function (al, p) {
     return (al.pagesVr && al.pagesVr[String(p)]) || [];
   };
@@ -144,8 +147,8 @@
         card.className = 'cat-card';
         var thumbH = single ? 360 : 676;
         card.setAttribute('aria-label', label);
-        var thumbJpg = imgBase(ref, 't');
-        var thumbWebp = thumbJpg.replace(/\.jpg$/, '.webp');
+        var thumbJpg = withVer(imgBase(ref, 't'));
+        var thumbWebp = withVer(imgBase(ref, 't').replace(/\.jpg$/, '.webp'));
         card.innerHTML =
           '<span class="cat-thumb-wrap">' +
             '<img src="' + thumbWebp + '" data-fb="' + thumbJpg + '" alt="' + label + '" width="480" height="' + thumbH + '" loading="lazy" decoding="async">' +
@@ -234,7 +237,7 @@
 
   function render() {
     var it = flat[cur];
-    lbImg.src = imgBase(it.ref, 'f');
+    lbImg.src = withVer(imgBase(it.ref, 'f'));
     lbImg.alt = it.label || '';
     lbLabel.textContent = it.label || '';
     lbVr.innerHTML = '';
@@ -255,7 +258,7 @@
     [cur + 1, cur - 1].forEach(function (n) {
       if (n >= 0 && n < flat.length) {
         var im = new Image();
-        im.src = imgBase(flat[n].ref, 'f');
+        im.src = withVer(imgBase(flat[n].ref, 'f'));
       }
     });
   }
@@ -329,12 +332,16 @@
       img.src = fb;
       return;
     }
-    /* 2) 网络重试 */
+    /* 2) 网络重试：保留版本参数，仅追加 r 时间戳 */
     var n = parseInt(img.getAttribute('data-retry') || '0', 10);
     if (n >= 2) return;
     img.setAttribute('data-retry', String(n + 1));
     setTimeout(function () {
-      img.src = (img.getAttribute('src') || '').split('?')[0] + '?r=' + Date.now();
+      var u = img.getAttribute('src') || '';
+      var q = u.indexOf('?') >= 0 ? u.slice(u.indexOf('?') + 1) : '';
+      var keep = q.split('&').filter(function (k) { return k && k.indexOf('r=') !== 0; });
+      keep.push('r=' + Date.now());
+      img.src = u.split('?')[0] + '?' + keep.join('&');
     }, n === 0 ? 1000 : 3500);
   }, true);
   document.addEventListener('load', function (e) {
