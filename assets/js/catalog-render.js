@@ -31,23 +31,54 @@
     return (al.pagesVr && al.pagesVr[String(p)]) || [];
   };
 
-  /* 单专辑（materials）：chips 用纹理分组；多专辑（doors）：chips 用专辑 */
+  /* 单专辑（materials）：chips 用纹理分组；
+     多专辑（cabinets / doors）：第一行专辑，第二行起为该专辑的分组子导航（如衣柜/酒柜/电视柜） */
   var single = albums.length === 1 && albums[0].groups;
   var chips = document.createElement('nav');
   chips.className = 'cat-chips';
   chips.setAttribute('aria-label', en ? 'Catalog sections' : '图册导航');
-  var chipItems = single
-    ? albums[0].groups.map(function (g) { return { id: 'g-' + g.id, text: en ? g.en : g.zh }; })
-    : albums.map(function (al) { return { id: 'al-' + al.id, text: en ? al.en : al.zh }; });
-  chipItems.forEach(function (it) {
-    if (!it.id) return;
+
+  var makeChip = function (it, extraCls) {
+    if (!it.id) return null;
     var b = document.createElement('a');
-    b.className = 'cat-chip';
+    b.className = 'cat-chip' + (extraCls || '');
     b.href = '#' + it.id;
     b.setAttribute('data-target', it.id);
     b.textContent = it.text;
-    chips.appendChild(b);
-  });
+    return b;
+  };
+
+  var chipItems = [];
+  var pushChip = function (parent, it, extraCls) {
+    chipItems.push(it);
+    var b = makeChip(it, extraCls);
+    if (b) parent.appendChild(b);
+  };
+
+  if (single) {
+    chips.classList.add('cat-chips--flat');
+    albums[0].groups.forEach(function (g) {
+      pushChip(chips, { id: 'g-' + g.id, text: en ? g.en : g.zh });
+    });
+  } else {
+    chips.classList.add('cat-chips--multi');
+    var rowAlbums = document.createElement('div');
+    rowAlbums.className = 'cat-chip-row';
+    albums.forEach(function (al) {
+      pushChip(rowAlbums, { id: 'al-' + al.id, text: en ? al.en : al.zh });
+    });
+    chips.appendChild(rowAlbums);
+    /* 分组子导航：仅多分组专辑生成（单分组的专辑名与分组名重复，无需再来一行） */
+    albums.forEach(function (al) {
+      if (!al.groups || al.groups.length < 2) return;
+      var row = document.createElement('div');
+      row.className = 'cat-chip-row cat-chip-row--sub';
+      al.groups.forEach(function (g) {
+        pushChip(row, { id: 'g-' + g.id, text: en ? g.en : g.zh }, ' cat-chip--sub');
+      });
+      chips.appendChild(row);
+    });
+  }
   root.appendChild(chips);
 
   /* ---- 专辑与分组 ---- */
