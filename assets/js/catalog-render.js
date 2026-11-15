@@ -308,6 +308,27 @@
     });
   });
 
+  /* ---- 图册图片加载失败自动重试 ----
+   * GitHub Pages CDN 偶发瞬断会让缩略图留下破损占位；
+   * 失败后自动带时间戳参数重试（1s / 3.5s 两次），加载成功即复位计数 */
+  document.addEventListener('error', function (e) {
+    var img = e.target;
+    if (!(img instanceof HTMLImageElement)) return;
+    if (!img.closest('.cat-card') && !(img.classList && img.classList.contains('cat-lb-img'))) return;
+    var n = parseInt(img.getAttribute('data-retry') || '0', 10);
+    if (n >= 2) return;
+    img.setAttribute('data-retry', String(n + 1));
+    setTimeout(function () {
+      img.src = (img.getAttribute('src') || '').split('?')[0] + '?r=' + Date.now();
+    }, n === 0 ? 1000 : 3500);
+  }, true);
+  document.addEventListener('load', function (e) {
+    var img = e.target;
+    if (img instanceof HTMLImageElement && img.hasAttribute('data-retry')) {
+      img.removeAttribute('data-retry');
+    }
+  }, true);
+
   /* ---- CTA：WhatsApp 预填 ---- */
   var pdfBtn = document.querySelector('.js-wa-pdf');
   if (pdfBtn) {
