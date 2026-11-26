@@ -351,6 +351,7 @@
     lbStage.style.transform = 'translate(' + zTx + 'px,' + zTy + 'px) scale(' + zS + ')';
     if (zS > 1.01) lbStage.classList.add('is-zoomed');
     else lbStage.classList.remove('is-zoomed', 'is-panning');
+    if (typeof swPos === 'function') swPos();  /* 色卡跟随图片缩放平移 */
   }
   function zReset() { zS = 1; zTx = 0; zTy = 0; zApply(); }
   function zAt(px, py, ns) {
@@ -494,15 +495,20 @@
   }
   function swPos() {
     if (lb.hidden || !swBox) return;
-    var x = lbStage.offsetLeft + lbStage.offsetWidth + 16;
-    if (x + 44 > window.innerWidth - 8) {
+    /* 色卡跟随图片"当前可视框"：布局框 + 缩放(zS)/平移(zTx,zTy) 换算实际位置，
+       放大缩小时色卡贴着图片右缘移动，拖动时跟着走 */
+    var w = lbStage.offsetWidth, h = lbStage.offsetHeight;
+    var visR = lbStage.offsetLeft + zTx + w * zS;       /* 图片可视右缘 */
+    var visCy = lbStage.offsetTop + zTy + (h * zS) / 2; /* 图片可视竖直中心 */
+    if (visR + 56 <= window.innerWidth - 8) {
+      swBox.style.left = (visR + 16) + 'px';
+      swBox.style.right = 'auto';
+    } else {
+      /* 图片右缘超出屏幕：色卡钉在屏幕右缘，叠在图上保持可见 */
       swBox.style.left = 'auto';
       swBox.style.right = '10px';
-    } else {
-      swBox.style.right = 'auto';
-      swBox.style.left = x + 'px';
     }
-    swBox.style.top = Math.max(70, lbStage.offsetTop + lbStage.offsetHeight / 2) + 'px';
+    swBox.style.top = Math.max(90, Math.min(window.innerHeight - 90, visCy)) + 'px';
   }
   function buildSwatches() {
     if (lb.hidden || !lbImg.naturalWidth) return;
