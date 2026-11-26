@@ -383,12 +383,14 @@
     lbStage.addEventListener('pointermove', function (e) {
       var pd = zPointers[e.pointerId];
       if (!pd) return;
+      /* 先用上一帧坐标算位移，再更新坐标（顺序反了位移恒为 0，平移会失效） */
+      var dx = e.clientX - pd.lx, dy = e.clientY - pd.ly;
       pd.x = e.clientX; pd.y = e.clientY; pd.lx = e.clientX; pd.ly = e.clientY;
       var ids = Object.keys(zPointers);
       if (ids.length === 1 && zS > 1) {
         /* 单指/鼠标拖动平移 */
-        zTx += e.clientX - pd.lx;
-        zTy += e.clientY - pd.ly;
+        zTx += dx;
+        zTy += dy;
         zApply();
       } else if (ids.length === 2) {
         /* 双指捏合缩放 + 中点移动平移 */
