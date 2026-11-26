@@ -506,7 +506,14 @@
   }
   function buildSwatches() {
     if (lb.hidden || !lbImg.naturalWidth) return;
-    var colors = swPalette(lbImg);
+    /* 只为"当前页且已加载完成"的图片建卡：防止兜底定时器把上一张的色错挂过来 */
+    var want = withVer(imgBase(flat[cur].ref, 'f'));
+    if (lbImg.getAttribute('src') !== want || !lbImg.complete) return;
+    /* 同一张图只建一次，避免 load 事件与兜底定时器重复触发 */
+    var key = want;
+    if (swBox.getAttribute('data-for') === key && swBox.children.length) return;
+    var colors = [];
+    try { colors = swPalette(lbImg); } catch (err) { return; }
     swBox.innerHTML = '';
     colors.forEach(function (hex) {
       var b = document.createElement('button');
@@ -529,11 +536,16 @@
       });
       swBox.appendChild(b);
     });
+    swBox.setAttribute('data-for', key);
     swPos();
   }
   lbImg.addEventListener('load', function () {
     if (!lb.hidden) buildSwatches();
   });
+  /* 兜底：个别浏览器对已缓存图片可能不触发 load，定时补建 */
+  window.setInterval(function () {
+    if (!lb.hidden && !swBox.children.length) buildSwatches();
+  }, 700);
   window.addEventListener('resize', swPos);
 
   /* ---- 触屏滑动翻页（手机端左右滑动切换上一张/下一张）----
