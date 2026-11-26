@@ -287,6 +287,7 @@
     lbImg.src = withVer(imgBase(it.ref, 'f'));
     lbImg.alt = it.label || '';
     lbLabel.textContent = it.label || '';
+    if (swBox) swBox.innerHTML = '';   /* 翻页时先清空旧色卡，图片解码完成后重建 */
     lbVr.innerHTML = '';
     renderQr(it);
     if (it.vr.length) {
@@ -432,6 +433,106 @@
     if (zOut) zOut.addEventListener('click', function () { zAt(lbStage.offsetWidth / 2, lbStage.offsetHeight / 2, zS / 1.4); });
     if (zRst) zRst.addEventListener('click', zReset);
   }
+
+  /* ---- 主色色卡：点开图片后，右侧弹出该图主要颜色的圆形色卡 ----
+   * 颜色在客户端用 canvas 实时提取（64px 缩略采样 + 色桶聚类，去同近色），
+   * 悬停/点按色卡显示色值（HEX），点击色卡复制色值。 */
+  var swBox = document.createElement('div');
+  swBox.className = 'cat-lb-swatches';
+  lb.appendChild(swBox);
+
+  function swHex(r, g, b) {
+    function h2(v) { var s = Math.round(v).toString(16); return s.length < 2 ? '0' + s : s; }
+    return '#' + h2(r) + h2(g) + h2(b);
+  }
+  function swPalette(img) {
+    var S = 64, c = document.createElement('canvas');
+    c.width = S; c.height = S;
+    var ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0, S, S);
+    var data;
+    try { data = ctx.getImageData(0, 0, S, S).data; } catch (err) { return []; }
+    var buckets = {};
+    for (var i = 0; i < data.length; i += 4) {
+      /* 忽略几乎全透明的像素（如有） */
+      if (data[i + 3] < 128) continue;
+      var k = (data[i] & 0xF0) + ',' + (data[i + 1] & 0xF0) + ',' + (data[i + 2] & 0xF0);
+      var o = buckets[k];
+      if (!o) { o = buckets[k] = { n: 0, r: 0, g: 0, b: 0 }; }
+      o.n++; o.r += data[i]; o.g += data[i + 1]; o.b += data[i + 2];
+    }
+    var arr = Object.keys(buckets).map(function (k2) {
+      var o2 = buckets[k2];
+      return { r: o2.r / o2.n, g: o2.g / o2.n, b: o2.b / o2.n, n: o2.n };
+    });
+    arr.sort(function (a, b2) { return b2.n - a.n; });
+    var picked = [];
+    for (var j = 0; j < arr.length && picked.length < 5; j++) {
+      var cc = arr[j], dup = false;
+      for (var m = 0; m < picked.length; m++) {
+        var pp = picked[m];
+        if (Math.abs(pp.r - cc.r) + Math.abs(pp.g - cc.g) + Math.abs(pp.b - cc.b) < 90) { dup = true; break; }
+      }
+      if (!dup) picked.push(cc);
+    }
+    return picked.map(function (c3) { return swHex(c3.r, c3.g, c3.b); });
+  }
+  function swCopy(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(function () {});
+      return;
+    }
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) {}
+    document.body.removeChild(ta);
+  }
+  function swPos() {
+    if (lb.hidden || !swBox) return;
+    var x = lbStage.offsetLeft + lbStage.offsetWidth + 16;
+    if (x + 44 > window.innerWidth - 8) {
+      swBox.style.left = 'auto';
+      swBox.style.right = '10px';
+    } else {
+      swBox.style.right = 'auto';
+      swBox.style.left = x + 'px';
+    }
+    swBox.style.top = Math.max(70, lbStage.offsetTop + lbStage.offsetHeight / 2) + 'px';
+  }
+  function buildSwatches() {
+    if (lb.hidden || !lbImg.naturalWidth) return;
+    var colors = swPalette(lbImg);
+    swBox.innerHTML = '';
+    colors.forEach(function (hex) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'cat-lb-sw';
+      b.style.background = hex;
+      b.setAttribute('aria-label', hex);
+      var tip = document.createElement('span');
+      tip.className = 'cat-sw-tip';
+      tip.textContent = hex;
+      b.appendChild(tip);
+      b.addEventListener('click', function () {
+        swCopy(hex);
+        tip.textContent = hex + ' ✓';
+        b.classList.add('show-tip');
+        setTimeout(function () {
+          tip.textContent = hex;
+          b.classList.remove('show-tip');
+        }, 1200);
+      });
+      swBox.appendChild(b);
+    });
+    swPos();
+  }
+  lbImg.addEventListener('load', function () {
+    if (!lb.hidden) buildSwatches();
+  });
+  window.addEventListener('resize', swPos);
 
   /* ---- 触屏滑动翻页（手机端左右滑动切换上一张/下一张）----
    * 阈值 50px 且横向位移明显大于纵向，避免与点击、上下滚动冲突；

@@ -2460,6 +2460,45 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   transition: border-color .3s ease, background .3s ease;
 }
 .cat-lb-zoom button:hover { border-color: #BC9464; background: rgba(188, 148, 100, .28); }
+/* 主色色卡：图片右侧竖排圆形色卡，悬停显示色值，点击复制 */
+.cat-lb-swatches {
+  position: absolute;
+  z-index: 7;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transform: translateY(-50%);
+}
+.cat-lb-sw {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .85);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .55);
+  cursor: pointer;
+  padding: 0;
+  transition: transform .25s ease;
+}
+.cat-lb-sw:hover { transform: scale(1.18); }
+.cat-lb-sw .cat-sw-tip {
+  position: absolute;
+  right: 36px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(20, 18, 16, .94);
+  color: #FFFFFF;
+  font-size: 12px;
+  letter-spacing: .04em;
+  padding: 5px 11px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.cat-lb-sw:hover .cat-sw-tip,
+.cat-lb-sw.show-tip .cat-sw-tip { opacity: 1; }
 .cat-lb-prev, .cat-lb-next { z-index: 5; }
 .cat-lb-stage .cat-lb-img { display: block; }
 /* 二维码透明热区：覆盖在图片对应位置，点击新标签打开 */
