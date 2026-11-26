@@ -2479,6 +2479,13 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   cursor: pointer;
   padding: 0;
   transition: transform .25s ease;
+  /* 从图片向右依次弹出的入场动画（backwards：延迟期间保持起始帧，结束后恢复常态，悬停放大不受影响） */
+  animation: catSwPop .45s cubic-bezier(.34, 1.56, .64, 1) backwards;
+  animation-delay: calc(var(--sw-i, 0) * 90ms);
+}
+@keyframes catSwPop {
+  from { opacity: 0; transform: translateX(-22px) scale(.4); }
+  to   { opacity: 1; transform: none; }
 }
 .cat-lb-sw:hover { transform: scale(1.18); }
 .cat-lb-sw .cat-sw-tip {

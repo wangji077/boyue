@@ -512,14 +512,22 @@
     /* 同一张图只建一次，避免 load 事件与兜底定时器重复触发 */
     var key = want;
     if (swBox.getAttribute('data-for') === key && swBox.children.length) return;
-    var colors = [];
-    try { colors = swPalette(lbImg); } catch (err) { return; }
+    /* 优先用预生成色卡（catalog-colors.js，file:// 本地打开也能显示），
+       数据缺失时再回退到 canvas 实时提取（file:// 下浏览器会拒绝读像素，回退静默失败） */
+    var it = flat[cur];
+    var pre = window.CAT_COLORS && window.CAT_COLORS[it.ref.dir + '/' + it.ref.n];
+    var colors = pre && pre.length ? pre : [];
+    if (!colors.length) {
+      try { colors = swPalette(lbImg); } catch (err) { return; }
+    }
     swBox.innerHTML = '';
-    colors.forEach(function (hex) {
+    colors.forEach(function (hex, idx) {
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'cat-lb-sw';
       b.style.background = hex;
+      /* 弹出动画的序号变量：从上到下依次延迟 */
+      b.style.setProperty('--sw-i', idx);
       b.setAttribute('aria-label', hex);
       var tip = document.createElement('span');
       tip.className = 'cat-sw-tip';
