@@ -2426,11 +2426,40 @@ body.menu-open .fab-stack { opacity: 0; pointer-events: none; }
   display: inline-flex;
   max-width: 100%;
   line-height: 0;
+  transform-origin: 0 0;   /* 缩放/平移以布局框左上角为基准，JS 钳制平移范围 */
+  cursor: zoom-in;
   touch-action: pan-y; /* 横向滑动交给 JS 手势处理，纵向仍走浏览器 */
   -webkit-user-select: none;
   user-select: none;
 }
+.cat-lb-stage .cat-lb-img { display: block; pointer-events: none; -webkit-user-drag: none; }
+.cat-lb-stage.is-zoomed { cursor: grab; touch-action: none; }
+.cat-lb-stage.is-panning { cursor: grabbing; }
+/* 右下角缩放控制：放大 / 缩小 / 复位 */
+.cat-lb-zoom {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  gap: 8px;
+  z-index: 6;
 }
+.cat-lb-zoom button {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .32);
+  background: rgba(22, 20, 18, .78);
+  color: #FFFFFF;
+  font-size: 15px;
+  letter-spacing: .02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color .3s ease, background .3s ease;
+}
+.cat-lb-zoom button:hover { border-color: #BC9464; background: rgba(188, 148, 100, .28); }
 .cat-lb-prev, .cat-lb-next { z-index: 5; }
 .cat-lb-stage .cat-lb-img { display: block; }
 /* 二维码透明热区：覆盖在图片对应位置，点击新标签打开 */

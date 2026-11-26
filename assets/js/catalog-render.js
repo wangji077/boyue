@@ -242,6 +242,7 @@
   var lbVr = lb.querySelector('.cat-lb-vr');
   var lbHots = lb.querySelector('.cat-lb-hots');
   var lbQr = lb.querySelector('.cat-lb-qr');
+  var lbStage = lb.querySelector('.cat-lb-stage');
   var cur = 0;
 
   /* 二维码热区：数据来自各册交付包 qr_links.csv（qr-links.js），
@@ -282,6 +283,7 @@
 
   function render() {
     var it = flat[cur];
+    if (lbStage) zReset();
     lbImg.src = withVer(imgBase(it.ref, 'f'));
     lbImg.alt = it.label || '';
     lbLabel.textContent = it.label || '';
@@ -315,6 +317,7 @@
   };
   function catClose() {
     lb.hidden = true;
+    if (lbStage) zReset();
     document.body.style.overflow = '';
   }
   function catStep(d) {
@@ -332,12 +335,110 @@
     else if (e.key === 'ArrowRight') catStep(1);
   });
 
+  /* ---- 自由缩放查看细节 ----
+   * 桌面：滚轮缩放（以光标为中心）+ 按住拖动平移 + 双击放大/复位；
+   * 手机：双指捏合缩放 + 拖动平移 + 双击放大/复位；
+   * 缩放时翻页手势关闭，图片不能拖出原框（平移范围钳制）。 */
+  var zS = 1, zTx = 0, zTy = 0;
+  var zPointers = {};
+  var zPinchD = 0, zPinchMid = null;
+  var zTapT = 0, zTapX = 0, zTapY = 0;
+  function zApply() {
+    var w = lbStage.offsetWidth, h = lbStage.offsetHeight;
+    zTx = Math.min(0, Math.max(w * (1 - zS), zTx));
+    zTy = Math.min(0, Math.max(h * (1 - zS), zTy));
+    lbStage.style.transform = 'translate(' + zTx + 'px,' + zTy + 'px) scale(' + zS + ')';
+    if (zS > 1.01) lbStage.classList.add('is-zoomed');
+    else lbStage.classList.remove('is-zoomed', 'is-panning');
+  }
+  function zReset() { zS = 1; zTx = 0; zTy = 0; zApply(); }
+  function zAt(px, py, ns) {
+    ns = Math.max(1, Math.min(6, ns));
+    zTx = px - (px - zTx) * ns / zS;
+    zTy = py - (py - zTy) * ns / zS;
+    zS = ns;
+    if (zS === 1) { zTx = 0; zTy = 0; }
+    zApply();
+  }
+  /* 指针位置 → 舞台布局坐标（getBoundingClientRect 已含当前位移，需补回 zTx/zTy） */
+  function zPt(clientX, clientY) {
+    var r = lbStage.getBoundingClientRect();
+    return { x: clientX - r.left + zTx, y: clientY - r.top + zTy };
+  }
+  if (lbStage) {
+    lbStage.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      var p = zPt(e.clientX, e.clientY);
+      zAt(p.x, p.y, zS * (e.deltaY < 0 ? 1.3 : 1 / 1.3));
+    }, { passive: false });
+    lbStage.addEventListener('pointerdown', function (e) {
+      /* 二维码热区走原生点击，不参与缩放拖拽 */
+      if (e.target.closest && e.target.closest('.cat-lb-hot')) return;
+      zPointers[e.pointerId] = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, sx: e.clientX, sy: e.clientY, t: Date.now() };
+      try { lbStage.setPointerCapture(e.pointerId); } catch (err) {}
+      if (zS > 1) lbStage.classList.add('is-panning');
+      e.preventDefault();
+    });
+    lbStage.addEventListener('pointermove', function (e) {
+      var pd = zPointers[e.pointerId];
+      if (!pd) return;
+      pd.x = e.clientX; pd.y = e.clientY; pd.lx = e.clientX; pd.ly = e.clientY;
+      var ids = Object.keys(zPointers);
+      if (ids.length === 1 && zS > 1) {
+        /* 单指/鼠标拖动平移 */
+        zTx += e.clientX - pd.lx;
+        zTy += e.clientY - pd.ly;
+        zApply();
+      } else if (ids.length === 2) {
+        /* 双指捏合缩放 + 中点移动平移 */
+        var pts = ids.map(function (k) { return zPointers[k]; });
+        var d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+        var mx = (pts[0].x + pts[1].x) / 2, my = (pts[0].y + pts[1].y) / 2;
+        if (zPinchD > 0) {
+          var p = zPt(mx, my);
+          zAt(p.x, p.y, zS * d / zPinchD);
+          zTx += mx - zPinchMid.x;
+          zTy += my - zPinchMid.y;
+          zApply();
+        }
+        zPinchD = d;
+        zPinchMid = { x: mx, y: my };
+      }
+    });
+    function zUp(e) {
+      var pd = zPointers[e.pointerId];
+      delete zPointers[e.pointerId];
+      if (Object.keys(zPointers).length < 2) { zPinchD = 0; zPinchMid = null; }
+      lbStage.classList.remove('is-panning');
+      if (!pd || lb.hidden) return;
+      /* 双击（双触）放大 / 复位 */
+      var moved = Math.hypot(e.clientX - pd.sx, e.clientY - pd.sy);
+      if (moved < 12 && Date.now() - pd.t < 350 && Object.keys(zPointers).length === 0) {
+        var now = Date.now();
+        if (now - zTapT < 350 && Math.hypot(e.clientX - zTapX, e.clientY - zTapY) < 48) {
+          if (zS > 1) zReset();
+          else { var p = zPt(e.clientX, e.clientY); zAt(p.x, p.y, 2.5); }
+          zTapT = 0;
+        } else { zTapT = now; zTapX = e.clientX; zTapY = e.clientY; }
+      }
+    }
+    lbStage.addEventListener('pointerup', zUp);
+    lbStage.addEventListener('pointercancel', zUp);
+    /* 右下角缩放控制按钮 */
+    var zIn = lb.querySelector('.cat-lb-zin');
+    var zOut = lb.querySelector('.cat-lb-zout');
+    var zRst = lb.querySelector('.cat-lb-zreset');
+    if (zIn) zIn.addEventListener('click', function () { zAt(lbStage.offsetWidth / 2, lbStage.offsetHeight / 2, zS * 1.4); });
+    if (zOut) zOut.addEventListener('click', function () { zAt(lbStage.offsetWidth / 2, lbStage.offsetHeight / 2, zS / 1.4); });
+    if (zRst) zRst.addEventListener('click', zReset);
+  }
+
   /* ---- 触屏滑动翻页（手机端左右滑动切换上一张/下一张）----
    * 阈值 50px 且横向位移明显大于纵向，避免与点击、上下滚动冲突；
-   * 起手点若落在二维码热区上同样生效——移动超过浏览器点击判定距离后不会触发误点 */
+   * 放大状态下（zS>1）滑动用于平移图片，不翻页 */
   var swX = 0, swY = 0;
   lb.addEventListener('touchstart', function (e) {
-    if (e.touches.length !== 1) { swX = 0; return; }
+    if (e.touches.length !== 1 || zS > 1) { swX = 0; return; }
     swX = e.touches[0].clientX;
     swY = e.touches[0].clientY;
   }, { passive: true });
